@@ -104,7 +104,7 @@ eval("// Imports\nvar ___CSS_LOADER_API_IMPORT___ = __webpack_require__(/*! ../c
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-eval("// Imports\nvar ___CSS_LOADER_API_IMPORT___ = __webpack_require__(/*! ../../../node_modules/css-loader/dist/runtime/api.js */ \"./node_modules/css-loader/dist/runtime/api.js\");\nexports = ___CSS_LOADER_API_IMPORT___(false);\n// Module\nexports.push([module.i, \"h1 {\\n  color: red;\\n}\\n\", \"\"]);\n// Exports\nmodule.exports = exports;\n\n\n//# sourceURL=webpack:///./src/assets/styles/style.css?./node_modules/css-loader/dist/cjs.js");
+eval("// Imports\nvar ___CSS_LOADER_API_IMPORT___ = __webpack_require__(/*! ../../../node_modules/css-loader/dist/runtime/api.js */ \"./node_modules/css-loader/dist/runtime/api.js\");\nexports = ___CSS_LOADER_API_IMPORT___(false);\n// Module\nexports.push([module.i, \"\", \"\"]);\n// Exports\nmodule.exports = exports;\n\n\n//# sourceURL=webpack:///./src/assets/styles/style.css?./node_modules/css-loader/dist/cjs.js");
 
 /***/ }),
 
@@ -154,6 +154,18 @@ eval("var api = __webpack_require__(/*! ../../../node_modules/style-loader/dist/
 
 /***/ }),
 
+/***/ "./src/dom-manipulation.js":
+/*!*********************************!*\
+  !*** ./src/dom-manipulation.js ***!
+  \*********************************/
+/*! exports provided: generateTaskForm */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"generateTaskForm\", function() { return generateTaskForm; });\n\nconst createLabel = ( inputName, text ) => {\n  const label = document.createElement( 'label' );\n  label.setAttribute( 'for', inputName );\n  label.textContent = text;\n\n  return label;\n};\n\nconst createInput = ( type, id ) => {\n  const input = document.createElement( 'input' );\n  input.type = type;\n  input.setAttribute( 'id', id);\n  input.setAttribute( 'name', id);\n\n  return input;\n};\n\nconst createSpecialInput = ( elementType, name ) => {\n  const element = document.createElement( elementType );\n  element.setAttribute( 'id', name );\n  element.setAttribute( 'name', name );\n\n  return element;\n};\n\nconst appendOptionsToSelect = ( options, selectElement ) => {\n  if ( ! options.length ) {\n    return;\n  }\n\n  options.forEach( option => {\n    const optionNode = document.createElement( 'option' );\n\n    optionNode.value = option;\n    optionNode.textContent = option.toUpperCase();\n\n    selectElement.append( optionNode );\n  });\n}\n\nfunction generateTaskForm() {\n  const form = document.createElement( 'form' );\n  form.classList.add( \"task__form\" );\n\n  const taskTitle = createLabel( 'title', 'Title' );\n  const title = createInput( 'text', 'title' );\n\n  const taskDescription = createLabel( 'description', 'Title' );\n  const description = createSpecialInput( 'textarea', 'description' );\n\n  const taskDueDate = createLabel( 'due-date', 'Deadline' );\n  const dueDate = createInput( 'date', 'due-date' );\n\n  const taskPriority = createLabel( 'priority', 'Priority' );\n  const priority = createSpecialInput ( 'select', 'priority' );\n\n  const priorityOptions = [ 'low', 'normal', 'high' ];\n  appendOptionsToSelect( priorityOptions, priority );\n\n  const taskNotes = createLabel( 'notes', 'Notes' );\n  const notes = createSpecialInput( 'textarea', 'notes' );\n\n  const taskProject = createLabel( 'project', 'Project' );\n  const project = createSpecialInput( 'select', 'project' );\n\n  appendOptionsToSelect( [ 'default' ], project );\n\n  const closeButton = document.createElement( 'button' );\n  closeButton.classList.add( 'button__close' );\n  closeButton.textContent = 'Close';\n\n  const submitButton = document.createElement( 'button' );\n  submitButton.classList.add( 'button__submit' );\n  submitButton.textContent = 'Save';\n\n  form.append(\n    taskTitle,\n    title,\n    taskDescription,\n    description,\n    taskDueDate,\n    dueDate,\n    taskPriority,\n    priority,\n    taskNotes,\n    notes,\n    taskProject,\n    project,\n    closeButton,\n    submitButton,\n  );\n\n  return form;\n}\n\n\n\n\n//# sourceURL=webpack:///./src/dom-manipulation.js?");
+
+/***/ }),
+
 /***/ "./src/index.js":
 /*!**********************!*\
   !*** ./src/index.js ***!
@@ -162,7 +174,19 @@ eval("var api = __webpack_require__(/*! ../../../node_modules/style-loader/dist/
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var normalize_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! normalize.css */ \"./node_modules/normalize.css/normalize.css\");\n/* harmony import */ var normalize_css__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(normalize_css__WEBPACK_IMPORTED_MODULE_0__);\n/* harmony import */ var _assets_styles_style_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./assets/styles/style.css */ \"./src/assets/styles/style.css\");\n/* harmony import */ var _assets_styles_style_css__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_assets_styles_style_css__WEBPACK_IMPORTED_MODULE_1__);\n\n\n\n\n//# sourceURL=webpack:///./src/index.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var normalize_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! normalize.css */ \"./node_modules/normalize.css/normalize.css\");\n/* harmony import */ var normalize_css__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(normalize_css__WEBPACK_IMPORTED_MODULE_0__);\n/* harmony import */ var _assets_styles_style_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./assets/styles/style.css */ \"./src/assets/styles/style.css\");\n/* harmony import */ var _assets_styles_style_css__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_assets_styles_style_css__WEBPACK_IMPORTED_MODULE_1__);\n/* harmony import */ var _task__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./task */ \"./src/task.js\");\n/* harmony import */ var _dom_manipulation__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./dom-manipulation */ \"./src/dom-manipulation.js\");\n\n\n\n\n\nconsole.log( Object(_task__WEBPACK_IMPORTED_MODULE_2__[\"taskFactory\"])( { title:'hi', description:'lol', dueDate:'test', priority:'ier', notes:'xcv', project:'woie' }));\n\nconst form = Object(_dom_manipulation__WEBPACK_IMPORTED_MODULE_3__[\"generateTaskForm\"])();\ndocument.body.append( form );\n//console.log( generateTaskForm() );\n\n\n//# sourceURL=webpack:///./src/index.js?");
+
+/***/ }),
+
+/***/ "./src/task.js":
+/*!*********************!*\
+  !*** ./src/task.js ***!
+  \*********************/
+/*! exports provided: taskFactory */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"taskFactory\", function() { return taskFactory; });\nconst taskFactory = ( {\n  title,\n  description,\n  dueDate,\n  priority,\n  notes,\n  project\n}) => ({\n  title,\n  description,\n  dueDate,\n  priority,\n  notes,\n  project\n});\n\n\n\n\n//# sourceURL=webpack:///./src/task.js?");
 
 /***/ })
 
