@@ -1,2 +1,4 @@
-# Project Taken from [The Odin Project](https://www.theodinproject.com/)
+# Todo list organizer
+
+Project Taken from [The Odin Project](https://www.theodinproject.com/)
 
