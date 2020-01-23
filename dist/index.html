@@ -5,22 +5,74 @@
   <title>My Todo App</title>
 </head>
 <body>
+  <h1>Todo Lists Organizer</h1>
   <div class="main__container">
-    <div class="project__sidebar">
-      <h1>Todo Lists Organizer</h1>
+
+    <div class="project__container">
       <h2>Projects</h2>
       <h3 class="project__name">Default</h3>
-      <button>Add Project</button>
+      <button class="button__reveal reveal__project-input">Add Project</button>
+      <div class="add__project">
+        <input class="project__input" type="text">
+        <button class= "button__add-project">Add</button>
+        <button class= "button__close-project">X</button>
+      </div>
     </div>
-    <div class="todosContainer">
+
+    <div class="todos__container">
       <h2>Todo List</h2>
       <div class="todo__example">
         <p class="todo__title">This is a sample Todo item</p>
-        <span class="todo__date">januray 24 2020</span>
+        <span class="todo__date">january 24 2020</span>
       </div>
-      <button>Add Task</button>
+      <button class="button__reveal reveal__task-inputs">Add Task</button>
+
+      <form class="task__form">
+        <div class="task__form-element task__title">
+          <label for="task-title">Title</label>
+          <input type="text" name="title" id="task-title">
+        </div>
+
+        <div class="task__form-element task__deadline">
+          <label for="task-deadline">Deadline</label>
+          <input type="date" name="deadline" id="task-deadline">
+        </div>
+
+        <div class="task__form-element task__description">
+          <label for="task-description">Description</label>
+          <textarea id="task-description" name="description"></textarea>
+        </div>
+
+        <div class="task__form-element task__priority">
+          <label for="task-priority">Priority</label>
+          <select id="task-priority" name="priority">
+            <option value="low">Low</option>
+            <option value="normal">Normal</option>
+            <option value="high">High</option>
+          </select>
+        </div>
+
+        <div class="task__form-element task__notes">
+          <label for="task-notes">Notes</label>
+          <textarea id="task-notes" name="notes"></textarea>
+        </div>
+
+        <div class="task__form-element task__project">
+          <label for="task-project">Project</label>
+          <select id="task-project" name="project">
+            <option value="default">Default</option>
+          </select>
+        </div>
+
+        <div class="task__form-element task__buttons">
+          <button class="close__task-form">Close</button>
+          <button class="button__add-task">Add</button>
+        </div>
+      </form>
+
     </div>
   </div>
+
   <script src= "main.js"></script>
 </body>
 </html>

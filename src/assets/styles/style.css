@@ -1,4 +1,26 @@
-
 .main__container {
-
+  display: flex;
+  margin: 2em 10%;
 }
+
+.project__container {
+  flex-grow: 1;
+  padding: 0 2em;
+}
+
+.add__project {
+  display: none;
+}
+
+.todos__container {
+  flex-grow: 2;
+  padding: 0 2em;
+}
+
+.task__form {
+  display: none;
+  flex-direction: column;
+  flex-wrap: wrap;
+}
+
+
