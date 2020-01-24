@@ -1,4 +1,5 @@
 import * as listenerFunctions from "./dom-manipulation";
+import { handleProjectRequest } from "./project-controller";
 
 const revealProjectFormButton = document.getElementsByClassName( "reveal__project-input" )[0];
 const hideProjectFormButton = document.getElementsByClassName( "button__close-project" )[0];
@@ -16,7 +17,7 @@ function registerListeners() {
 
   hideTaskFormButton.addEventListener( 'click', listenerFunctions.removeTaskForm );
 
-  addProjectButton.addEventListener( 'click', listenerFunctions.addProject );
+  addProjectButton.addEventListener( 'click', handleProjectRequest );
 }
 
 export { registerListeners }

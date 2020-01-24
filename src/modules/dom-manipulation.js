@@ -8,7 +8,8 @@ const revealProjectForm = ( event ) => {
 const removeProjectForm = ( event ) => {
   const projectInput = document.getElementsByClassName( "project__input" )[0];
 
-  projectInput.textContent = '';
+  clearInput( projectInput );
+
   projectForm.style.display = '';
 };
 
@@ -22,20 +23,20 @@ const removeTaskForm = ( event ) => {
   const form = [ ...event.target.form ];
 
   form.forEach( formElement => {
-    formElement.value = '';
+    clearInput( formElement );
   });
 
   taskForm.style.display = '';
 };
 
-const addProject = ( event ) => {
-  console.log( event.target );
-};
+const clearInput = ( input ) => {
+  input.value = '';
+}
 
 export {
   revealProjectForm,
   removeProjectForm,
   revealTaskForm,
   removeTaskForm,
-  addProject,
+  clearInput,
 };
