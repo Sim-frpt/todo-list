@@ -1,5 +1,5 @@
 import { createProject, projects } from "./project-model";
-import { clearInput } from "./dom-manipulation";
+import { clearInput, removeProjectForm, updateProjectsList } from "./dom-manipulation";
 
 const handleProjectRequest = ( event ) => {
 
@@ -13,6 +13,9 @@ const handleProjectRequest = ( event ) => {
 
   createProject( input.value );
   clearInput( input );
+  removeProjectForm();
+  updateProjectsList( projects );
+  console.log( projects );
 };
 
 const validateInput = ( input ) => {

@@ -1,3 +1,5 @@
+import { projects } from "./project-model"
+
 const projectForm = document.getElementsByClassName( "add__project" )[0];
 const taskForm     = document.getElementsByClassName( "task__form" )[0];
 
@@ -31,7 +33,38 @@ const removeTaskForm = ( event ) => {
 
 const clearInput = ( input ) => {
   input.value = '';
-}
+};
+
+const updateProjectsList = ( projects ) => {
+  const projectsTitle = document.getElementsByClassName( "projects__title" )[0];
+  const projectNodes  = [...document.getElementsByClassName( "project__name" )];
+
+  projectNodes.forEach( node => node.remove() );
+
+  projects.forEach( project => {
+    const projectNode = document.createElement( "h3" );
+
+    projectNode.classList.add( "project__name" );
+
+    projectNode.textContent = project.name;
+
+    projectsTitle.after( projectNode );
+  });
+};
+
+const markProjectAsSelected = ( projects ) => {
+  const selectedProject = projects.find( project => project.isSelected );
+  const projectNodes    = [...document.getElementsByClassName( "project__name" )];
+  const selectedClass   = "selected__project";
+
+  projectNodes.forEach( node => {
+    if ( node.textContent === selectedProject.name ) {
+      node.classList.add( selectedClass );
+    } else {
+      node.classList.remove( selectedClass );
+    }
+  });
+};
 
 export {
   revealProjectForm,
@@ -39,4 +72,6 @@ export {
   revealTaskForm,
   removeTaskForm,
   clearInput,
+  updateProjectsList,
+  markProjectAsSelected,
 };
