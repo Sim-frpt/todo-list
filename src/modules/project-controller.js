@@ -1,5 +1,6 @@
 import { createProject, projects } from "./project-model";
-import { removeProjectForm, updateProjectsList, markProjectAsSelected } from "./dom-manipulation";
+import { tasks } from "./task-model";
+import { removeProjectForm, updateProjectsList, updateTasksList, markProjectAsSelected } from "./dom-manipulation";
 
 const handleProjectRequest = ( event ) => {
 
@@ -38,4 +39,25 @@ const isNameAlreadyTaken = input => {
   return isnameTaken;
 };
 
-export { handleProjectRequest, projects };
+const handleProjectNameFocus = ( event ) => {
+  if ( ! event.target.classList.contains( "project__name" )) {
+    return;
+  }
+
+  const projectName = event.target.textContent.toLowerCase();
+
+  projects.forEach( project => {
+    if ( project.name === projectName && ! project.isSelected ) {
+      project.toggleSelected();
+    }
+
+    if ( project.isSelected && project.name !== projectName ) {
+      project.toggleSelected();
+    }
+  });
+
+  markProjectAsSelected( projects );
+  updateTasksList( tasks );
+};
+
+export { handleProjectRequest, handleProjectNameFocus, projects };
