@@ -1,5 +1,5 @@
 import { projects } from "./project-controller"
-import { task } from "./task-controller"
+import { tasks } from "./task-controller"
 
 const projectForm = document.getElementsByClassName( "add__project" )[0];
 const taskForm     = document.getElementsByClassName( "task__form" )[0];
@@ -50,10 +50,46 @@ const updateProjectsList = ( projects ) => {
 
     projectNode.classList.add( "project__name" );
 
-    projectNode.textContent = project.name;
+    projectNode.textContent = getUpperCaseString( project.name );
 
     projectsContainer.insertBefore( projectNode, addProjectButton );
   });
+};
+
+const updateTasksList = ( tasks ) => {
+  const tasksContainer      = document.getElementsByClassName( "todos__container" )[0];
+  const selectedProject     = document.getElementsByClassName( "selected__project" )[0];
+  const selectedProjectName = selectedProject.textContent.toLowerCase();
+  const tasksList           = [...document.getElementsByClassName( "todo__item" )];
+  const addTaskButton       = document.getElementsByClassName( "reveal__task-inputs" )[0];
+
+  tasksList.forEach( node => node.remove() );
+
+  tasks.forEach( task => {
+    if ( task.project !== selectedProjectName ) {
+      return;
+    }
+
+    const taskNode  = document.createElement( 'div' );
+    const taskTitle = document.createElement( 'p' );
+    const taskDate  = document.createElement( 'span' );
+
+    taskNode.classList.add( "todo__item" );
+    taskTitle.classList.add( "todo__title" );
+    taskDate.classList.add( "todo__date" );
+
+    taskTitle.textContent = getUpperCaseString( task.title );
+    taskDate.textContent = task.deadline;
+
+    taskNode.append( taskTitle, taskDate );
+
+    tasksContainer.insertBefore( taskNode, addTaskButton );
+  });
+  console.log( selectedProjectName );
+}
+
+const getUpperCaseString = ( string ) => {
+  return string.charAt(0).toUpperCase() + string.slice(1);
 };
 
 const markProjectAsSelected = ( projects ) => {
@@ -62,7 +98,9 @@ const markProjectAsSelected = ( projects ) => {
   const selectedClass   = "selected__project";
 
   projectNodes.forEach( node => {
-    if ( node.textContent === selectedProject.name ) {
+    let projectName = node.textContent.toLowerCase();
+
+    if ( projectName === selectedProject.name ) {
       node.classList.add( selectedClass );
     } else {
       node.classList.remove( selectedClass );
@@ -79,7 +117,7 @@ const reloadProjectOptions = () => {
     let option = document.createElement( 'option' );
 
     option.value = project.name;
-    option.textContent = project.name.charAt(0).toUpperCase() + project.name.slice(1);
+    option.textContent = getUpperCaseString( project.name );
 
     if ( project.isSelected ) {
       option.selected = 'selected';
@@ -96,5 +134,6 @@ export {
   removeTaskForm,
   clearInput,
   updateProjectsList,
+  updateTasksList,
   markProjectAsSelected,
 };

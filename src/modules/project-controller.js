@@ -1,5 +1,5 @@
 import { createProject, projects } from "./project-model";
-import { clearInput, removeProjectForm, updateProjectsList, markProjectAsSelected } from "./dom-manipulation";
+import { removeProjectForm, updateProjectsList, markProjectAsSelected } from "./dom-manipulation";
 
 const handleProjectRequest = ( event ) => {
 
@@ -12,7 +12,6 @@ const handleProjectRequest = ( event ) => {
   }
 
   createProject( input.value );
-  clearInput( input );
   removeProjectForm();
   updateProjectsList( projects );
   markProjectAsSelected( projects );

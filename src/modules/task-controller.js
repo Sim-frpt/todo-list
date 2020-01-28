@@ -1,4 +1,5 @@
 import { createTask, tasks } from "./task-model";
+import { removeTaskForm, updateTasksList } from "./dom-manipulation";
 
 const handleTaskRequest = ( event ) => {
   event.preventDefault();
@@ -24,6 +25,8 @@ const handleTaskRequest = ( event ) => {
   }
 
   createTask( rawValues );
+  removeTaskForm( event );
+  updateTasksList( tasks );
 };
 
 const isTitleTaskValid = ( title ) => {
