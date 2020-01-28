@@ -39,4 +39,4 @@ const isNameAlreadyTaken = input => {
   return isnameTaken;
 };
 
-export { handleProjectRequest };
+export { handleProjectRequest, projects };

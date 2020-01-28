@@ -1,4 +1,5 @@
-import { projects } from "./project-model"
+import { projects } from "./project-controller"
+import { task } from "./task-controller"
 
 const projectForm = document.getElementsByClassName( "add__project" )[0];
 const taskForm     = document.getElementsByClassName( "task__form" )[0];
@@ -16,6 +17,8 @@ const removeProjectForm = ( event ) => {
 };
 
 const revealTaskForm = ( event ) => {
+  reloadProjectOptions();
+
   taskForm.style.display = 'flex';
 };
 
@@ -36,8 +39,9 @@ const clearInput = ( input ) => {
 };
 
 const updateProjectsList = ( projects ) => {
-  const projectsTitle = document.getElementsByClassName( "projects__title" )[0];
-  const projectNodes  = [...document.getElementsByClassName( "project__name" )];
+  const projectsContainer = document.getElementsByClassName( "project__container" )[0];
+  const addProjectButton  = document.getElementsByClassName( "reveal__project-input")[0];
+  const projectNodes      = [...document.getElementsByClassName( "project__name" )];
 
   projectNodes.forEach( node => node.remove() );
 
@@ -48,7 +52,7 @@ const updateProjectsList = ( projects ) => {
 
     projectNode.textContent = project.name;
 
-    projectsTitle.after( projectNode );
+    projectsContainer.insertBefore( projectNode, addProjectButton );
   });
 };
 
@@ -63,6 +67,25 @@ const markProjectAsSelected = ( projects ) => {
     } else {
       node.classList.remove( selectedClass );
     }
+  });
+};
+
+const reloadProjectOptions = () => {
+  const projectSelectInput = document.getElementById( "task-project" );
+
+  projectSelectInput.innerHTML = '';
+
+  projects.forEach( project => {
+    let option = document.createElement( 'option' );
+
+    option.value = project.name;
+    option.textContent = project.name.charAt(0).toUpperCase() + project.name.slice(1);
+
+    if ( project.isSelected ) {
+      option.selected = 'selected';
+    }
+
+    projectSelectInput.appendChild( option );
   });
 };
 

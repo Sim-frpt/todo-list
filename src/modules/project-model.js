@@ -21,16 +21,15 @@ const createProject = ( projectName ) => {
 };
 
 const reorderProjects = ( projects ) => {
-  // sorted alphabetically starting from z so that they can be inserted alphabetically
   projects.sort( (a, b) => {
     const A = a.name.toUpperCase();
     const B = b.name.toUpperCase();
 
     if ( A < B ) {
-      return 1;
+      return -1;
     }
     if ( A > B ) {
-      return -1;
+      return 1;
     }
 
     return 0;
