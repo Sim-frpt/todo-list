@@ -7,7 +7,13 @@ const defaultProject = projectFactory( 'default', true );
 projects.push( defaultProject );
 
 const createProject = ( projectName ) => {
-  const newProject = projectFactory( projectName );
+  projects.forEach( project => {
+    if ( project.isSelected ) {
+      project.toggleSelected();
+    }
+  });
+
+  const newProject = projectFactory( projectName, true );
 
   projects.push( newProject );
 
@@ -30,4 +36,5 @@ const reorderProjects = ( projects ) => {
     return 0;
   });
 };
+
 export { createProject, projects };

@@ -1,11 +1,11 @@
 import { createProject, projects } from "./project-model";
-import { clearInput, removeProjectForm, updateProjectsList } from "./dom-manipulation";
+import { clearInput, removeProjectForm, updateProjectsList, markProjectAsSelected } from "./dom-manipulation";
 
 const handleProjectRequest = ( event ) => {
 
   const input = document.getElementsByClassName( "project__input" )[0];
 
-  if ( ! validateInput( input ) || nameIsAlreadyTaken( input.value ) ) {
+  if ( ! isInputValid( input ) || isNameAlreadyTaken( input.value ) ) {
     input.focus();
 
     return;
@@ -15,10 +15,10 @@ const handleProjectRequest = ( event ) => {
   clearInput( input );
   removeProjectForm();
   updateProjectsList( projects );
-  console.log( projects );
+  markProjectAsSelected( projects );
 };
 
-const validateInput = ( input ) => {
+const isInputValid = ( input ) => {
 
   if ( ! input.validity.valid ) {
     alert( "Please enter a project name, and make sure it's between 3 and 25 characters " );
@@ -29,7 +29,7 @@ const validateInput = ( input ) => {
   return true;
 };
 
-const nameIsAlreadyTaken = input => {
+const isNameAlreadyTaken = input => {
   const isnameTaken = projects.find( project => project.name === input );
 
   if ( isnameTaken ) {

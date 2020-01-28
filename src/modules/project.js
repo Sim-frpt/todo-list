@@ -1,11 +1,16 @@
 const projectFactory = ( name, isSelected = false ) => {
   const tasks = [];
 
-  return {
+  const self = {
     name,
     tasks,
-    isSelected
-  };
+    isSelected,
+    toggleSelected() {
+      return this.isSelected = ! this.isSelected;
+    },
+  }
+
+  return self;
 };
 
 export { projectFactory };
