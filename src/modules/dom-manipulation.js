@@ -41,19 +41,37 @@ const clearInput = ( input ) => {
 const updateProjectsList = ( projects ) => {
   const projectsContainer = document.getElementsByClassName( "project__container" )[0];
   const addProjectButton  = document.getElementsByClassName( "reveal__project-input")[0];
-  const projectNodes      = [...document.getElementsByClassName( "project__name" )];
+  const projectNodes      = [...document.getElementsByClassName( "project__wrapper" )];
 
-  projectNodes.forEach( node => node.remove() );
+  const removeProjects = () => {
+    projectNodes.forEach( node => node.remove() );
+  };
 
-  projects.forEach( project => {
-    const projectNode = document.createElement( "h3" );
+  const addProjects = () => {
+    projects.forEach( project => {
+      const projectNode = document.createElement( 'div' );
+      projectNode.classList.add( "project__wrapper" );
 
-    projectNode.classList.add( "project__name" );
+      const projectTitle = document.createElement( "h3" );
+      projectTitle.classList.add( "project__name" );
+      projectTitle.textContent = getUpperCaseString( project.name );
 
-    projectNode.textContent = getUpperCaseString( project.name );
+      const renameButton = document.createElement( 'button' );
+      renameButton.classList.add( "button__detail", "rename__project" );
+      renameButton.textContent = "Rename";
 
-    projectsContainer.insertBefore( projectNode, addProjectButton );
-  });
+      const deleteButton = document.createElement( 'button' );
+      deleteButton.classList.add( "button__detail", "delete__project" );
+      deleteButton.textContent = "Delete";
+
+      projectNode.append( projectTitle, renameButton, deleteButton );
+
+      projectsContainer.insertBefore( projectNode, addProjectButton );
+    });
+  };
+
+  removeProjects();
+  addProjects();
 };
 
 const updateTasksList = ( tasks ) => {
