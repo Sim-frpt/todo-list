@@ -4,6 +4,15 @@ import { tasks } from "./task-controller"
 const projectForm = document.getElementsByClassName( "add__project" )[0];
 const taskForm     = document.getElementsByClassName( "task__form" )[0];
 
+const addProjectRenameControls = ( element ) => {
+  const okButton = document.createElement( 'button' );
+  okButton.classList.add( "rename__button-ok" );
+  okButton.innerHTML = "<i class='fas fa-check'></i>";
+
+  element.after( okButton );
+  console.log( element );
+};
+
 const revealProjectForm = ( event ) => {
   projectForm.style.display = 'block';
 };
@@ -146,6 +155,7 @@ const reloadProjectOptions = () => {
 };
 
 export {
+  addProjectRenameControls,
   revealProjectForm,
   removeProjectForm,
   revealTaskForm,

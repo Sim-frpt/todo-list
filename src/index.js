@@ -1,5 +1,6 @@
 import "normalize.css";
 import "./assets/styles/style.css";
+import "@fortawesome/fontawesome-free/js/all"
 //import { taskFactory } from "./modules/task";
 import { registerListeners } from "./modules/event-handler";
 import { markProjectAsSelected, updateProjectsList } from "./modules/dom-manipulation";

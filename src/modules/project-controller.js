@@ -84,15 +84,15 @@ const handleRenamingProject = ( event ) => {
   // TODO finish this function
 
   const focusedProject = event.target.previousElementSibling;
-  const projectName = focusedProject.textContent.toLowerCase();
-
   const projectInput = document.createElement( 'input' );
+
   projectInput.setAttribute( 'type', "text" );
   projectInput.setAttribute( 'id', "project-rename-input" );
   projectInput.value = focusedProject.textContent;
+
   focusedProject.replaceWith( projectInput );
   projectInput.focus();
-  //pageInteraction.addControls( focusedProject );
+  pageInteraction.addProjectRenameControls( projectInput );
 
 }
 

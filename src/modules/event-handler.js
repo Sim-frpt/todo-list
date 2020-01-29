@@ -1,5 +1,5 @@
 import * as displayFunctions from "./dom-manipulation";
-import { handleProjectRequest, handleProjectNameFocus, handleProjectInteraction } from "./project-controller";
+import { handleProjectInteraction } from "./project-controller";
 import { handleTaskRequest } from "./task-controller";
 
 const revealTaskFormButton    = document.getElementsByClassName( "reveal__task-inputs" )[0];
