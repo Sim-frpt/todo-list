@@ -38,12 +38,11 @@ const reorderProjects = ( projects ) => {
   });
 };
 
-const renameProject = ( input ) => {
+const renameProject = ( input, id ) => {
   const newName = input.value.toLowerCase();
-  const oldName = input.dataset.projectPreviousName;
 
   projects.map( project => {
-    if ( project.name === oldName ) {
+    if ( project.id === id ) {
       project.name = newName;
     }
   });

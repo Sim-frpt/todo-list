@@ -2,9 +2,46 @@ import { createProject, renameProject, projects } from "./project-model";
 import { tasks } from "./task-model";
 import * as pageInteraction from "./dom-manipulation";
 
+const handleAddingProject = ( event ) => {
+  const input = document.getElementsByClassName( "project__input" )[0];
+
+  if ( ! isInputValid( input ) || isNameAlreadyTaken( input.value.toLowerCase() ) ) {
+    input.focus();
+
+    return;
+  }
+
+  createProject( input.value.toLowerCase() );
+
+  pageInteraction.removeProjectForm( event );
+  pageInteraction.displayProjects( projects );
+  pageInteraction.markProjectAsSelected( projects );
+};
+
+const handleDeletingProject = ( event ) => {
+
+  console.log( event );
+};
+
+const handleProjectFocus = ( event ) => {
+  const projectID = parseInt( event.target.parentNode.dataset.projectId );
+
+  projects.forEach( project => {
+    if ( project.isSelected && project.id !== projectID ) {
+      project.toggleSelected();
+    }
+    if ( ! project.isSelected && project.id === projectID ) {
+      project.toggleSelected();
+    }
+  });
+
+  pageInteraction.markProjectAsSelected( projects );
+  pageInteraction.updateTasksList( tasks );
+};
+
 const handleProjectInteraction = ( event ) => {
   if ( event.target.classList.contains( "project__name" ) ) {
-    handleProjectNameFocus( event );
+    handleProjectFocus( event );
     return;
   }
   if ( event.target.classList.contains( "rename__project") ) {
@@ -25,41 +62,32 @@ const handleProjectInteraction = ( event ) => {
     pageInteraction.removeProjectForm( event );
   }
   if ( event.target.classList.contains( "rename__button-ok" ) ) {
-    handleRenameProject( event );
+    RenameProject( event );
   }
   if ( event.target.classList.contains( "rename__button-cancel" ) ) {
-
+    pageInteraction.displayProjects( projects );
   }
-
 };
 
-const handleRenameProject = ( event ) => {
-  const input = document.getElementById( "project-rename-input" );
 
-  if ( ! isInputValid( input ) || isNameAlreadyTaken( input.value.toLowerCase() ) ) {
-    input.focus();
+const handleRenameButtonClick = ( event ) => {
+  // TODO finish this function
 
-    return;
-  }
+  const parentNode = event.target.parentNode;
 
-  renameProject( input );
-};
+  const focusedProject = parentNode.firstChild;
+  const confirmButton = parentNode.getElementsByClassName( "rename__button-ok" )[0];
+  const cancelButton = parentNode.getElementsByClassName( "rename__button-cancel" )[0];
 
-const handleAddingProject = ( event ) => {
-  const input = document.getElementsByClassName( "project__input" )[0];
+  const projectInput = document.createElement( 'input' );
+  projectInput.setAttribute( 'type', "text" );
+  projectInput.setAttribute( 'id', "project-rename-input" );
+  projectInput.value = focusedProject.textContent;
 
-  if ( ! isInputValid( input ) || isNameAlreadyTaken( input.value.toLowerCase() ) ) {
-    input.focus();
-
-    return;
-  }
-
-  createProject( input.value.toLowerCase() );
-
-  pageInteraction.removeProjectForm( event );
-  pageInteraction.displayProjects( projects );
-  pageInteraction.markProjectAsSelected( projects );
-};
+  focusedProject.replaceWith( projectInput );
+  projectInput.focus();
+  pageInteraction.toggleRenameControls( confirmButton, cancelButton );
+}
 
 const isInputValid = ( input ) => {
 
@@ -82,40 +110,22 @@ const isNameAlreadyTaken = input => {
   return isnameTaken;
 };
 
-const handleProjectNameFocus = ( event ) => {
+const RenameProject = ( event ) => {
+  const input = document.getElementById( "project-rename-input" );
   const projectID = parseInt( event.target.parentNode.dataset.projectId );
 
-  projects.forEach( project => {
-    if ( project.isSelected && project.id !== projectID ) {
-      project.toggleSelected();
-    }
-    if ( ! project.isSelected && project.id === projectID ) {
-      project.toggleSelected();
-    }
-  });
+  if ( ! isInputValid( input ) || isNameAlreadyTaken( input.value.toLowerCase() ) ) {
+    input.focus();
 
-  pageInteraction.markProjectAsSelected( projects );
-  pageInteraction.updateTasksList( tasks );
+    return;
+  }
+
+  renameProject( input, projectID );
+  pageInteraction.displayProjects( projects );
 };
-
-const handleRenameButtonClick = ( event ) => {
-  // TODO finish this function
-
-  const focusedProject = event.target.previousElementSibling;
-  const projectInput = document.createElement( 'input' );
-
-  projectInput.setAttribute( 'type', "text" );
-  projectInput.setAttribute( 'id', "project-rename-input" );
-  projectInput.setAttribute( "data-project-previous-name", `${focusedProject.textContent.toLowerCase()}` );
-  projectInput.value = focusedProject.textContent;
-
-  focusedProject.replaceWith( projectInput );
-  projectInput.focus();
-  pageInteraction.toggleRenameControls( projectInput );
-}
 
 export {
   handleProjectInteraction,
-  handleProjectNameFocus,
+  handleProjectFocus,
   projects,
 };

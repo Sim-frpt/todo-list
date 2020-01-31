@@ -4,16 +4,13 @@ import { tasks } from "./task-controller"
 const projectForm = document.getElementsByClassName( "add__project" )[0];
 const taskForm     = document.getElementsByClassName( "task__form" )[0];
 
-const toggleRenameControls = ( projectInput ) => {
-  const okRenameButton = document.getElementsByClassName( "rename__button-ok" )[0];
-  const cancelRenameButton = document.getElementsByClassName( "rename__button-cancel" )[0];
-
-  if ( okRenameButton.style.display === '' ) {
-    okRenameButton.style.display = "inline";
-    cancelRenameButton.style.display = "inline";
+const toggleRenameControls = ( okButton, cancelButton ) => {
+  if ( okButton.style.display === '' ) {
+    okButton.style.display = "inline";
+    cancelButton.style.display = "inline";
   } else {
-    okRenameButton.style.display = '';
-    cancelRenameButton.style.display = '';
+    okButton.style.display = "";
+    cancelButton.style.display = "";
   }
 };
 

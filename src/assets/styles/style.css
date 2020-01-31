@@ -28,4 +28,10 @@ button > * {
   flex-wrap: wrap;
 }
 
+.rename__button-ok {
+  display: none;
+}
 
+.rename__button-cancel {
+  display: none;
+}
