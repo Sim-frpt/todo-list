@@ -85,7 +85,6 @@ const displayProjects = ( projects ) => {
 
   projectNodes.forEach( node => node.remove() );
   projects.forEach( project => createProjectNode( project ) );
-
 };
 
 const updateTasksList = ( tasks ) => {

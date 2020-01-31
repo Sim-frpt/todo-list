@@ -1,3 +1,5 @@
+@import "modal.css";
+
 /*Used so that svg's inside a button will not capture an event listener*/
 button > * {
   pointer-events: none;

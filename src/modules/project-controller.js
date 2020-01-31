@@ -1,5 +1,6 @@
 import { createProject, renameProject, projects } from "./project-model";
 import { tasks } from "./task-model";
+import MicroModal from "micromodal";
 import * as pageInteraction from "./dom-manipulation";
 
 const handleAddingProject = ( event ) => {
@@ -18,9 +19,11 @@ const handleAddingProject = ( event ) => {
   pageInteraction.markProjectAsSelected( projects );
 };
 
-const handleDeletingProject = ( event ) => {
+const handleDeleteButtonClick = ( event ) => {
+  MicroModal.show( "del-project-modal", { awaitCloseAnimation: true } );
 
-  console.log( event );
+  const projectNode = event.target.parentNode;
+  const confirmDelete = document.getElementsByClassName( "modal__btn-primary" )[0];
 };
 
 const handleProjectFocus = ( event ) => {
@@ -49,7 +52,7 @@ const handleProjectInteraction = ( event ) => {
     return;
   }
   if ( event.target.classList.contains( "delete__project" ) ) {
-    handleDeletingProject( event );
+    handleDeleteButtonClick( event );
     return;
   }
   if ( event.target.classList.contains( "reveal__project-input" ) ) {
@@ -69,10 +72,7 @@ const handleProjectInteraction = ( event ) => {
   }
 };
 
-
 const handleRenameButtonClick = ( event ) => {
-  // TODO finish this function
-
   const parentNode = event.target.parentNode;
 
   const focusedProject = parentNode.firstChild;
