@@ -4,13 +4,17 @@ import { tasks } from "./task-controller"
 const projectForm = document.getElementsByClassName( "add__project" )[0];
 const taskForm     = document.getElementsByClassName( "task__form" )[0];
 
-const addProjectRenameControls = ( element ) => {
-  const okButton = document.createElement( 'button' );
-  okButton.classList.add( "rename__button-ok" );
-  okButton.innerHTML = "<i class='fas fa-check'></i>";
+const toggleRenameControls = ( projectInput ) => {
+  const okRenameButton = document.getElementsByClassName( "rename__button-ok" )[0];
+  const cancelRenameButton = document.getElementsByClassName( "rename__button-cancel" )[0];
 
-  element.after( okButton );
-  console.log( element );
+  if ( okRenameButton.style.display === '' ) {
+    okRenameButton.style.display = "inline";
+    cancelRenameButton.style.display = "inline";
+  } else {
+    okRenameButton.style.display = '';
+    cancelRenameButton.style.display = '';
+  }
 };
 
 const revealProjectForm = ( event ) => {
@@ -47,40 +51,44 @@ const clearInput = ( input ) => {
   input.value = '';
 };
 
-const updateProjectsList = ( projects ) => {
+const displayProjects = ( projects ) => {
   const projectsContainer = document.getElementsByClassName( "project__container" )[0];
   const addProjectButton  = document.getElementsByClassName( "reveal__project-input")[0];
   const projectNodes      = [...document.getElementsByClassName( "project__wrapper" )];
 
-  const removeProjects = () => {
-    projectNodes.forEach( node => node.remove() );
+  const createProjectNode = ( project ) => {
+    const projectNode = document.createElement( 'div' );
+    projectNode.classList.add( "project__wrapper" );
+    projectNode.setAttribute( "data-project-id", `${project.id}` );
+
+    const projectTitle = document.createElement( "h3" );
+    projectTitle.classList.add( "project__name" );
+    projectTitle.textContent = getUpperCaseString( project.name );
+
+    const renameButton = document.createElement( 'button' );
+    renameButton.classList.add( "button__detail", "rename__project" );
+    renameButton.textContent = "Rename";
+
+    const okButton = document.createElement( 'button' );
+    okButton.classList.add( "rename__button-ok" );
+    okButton.innerHTML = "<i class='fas fa-check'></i>";
+
+    const cancelButton = document.createElement( 'button' );
+    cancelButton.classList.add( "rename__button-cancel" );
+    cancelButton.innerHTML = "<i class='fas fa-times'></i>";
+
+    const deleteButton = document.createElement( 'button' );
+    deleteButton.classList.add( "button__detail", "delete__project" );
+    deleteButton.textContent = "Delete";
+
+    projectNode.append( projectTitle, okButton, cancelButton, renameButton, deleteButton );
+
+    projectsContainer.insertBefore( projectNode, addProjectButton );
   };
 
-  const addProjects = () => {
-    projects.forEach( project => {
-      const projectNode = document.createElement( 'div' );
-      projectNode.classList.add( "project__wrapper" );
+  projectNodes.forEach( node => node.remove() );
+  projects.forEach( project => createProjectNode( project ) );
 
-      const projectTitle = document.createElement( "h3" );
-      projectTitle.classList.add( "project__name" );
-      projectTitle.textContent = getUpperCaseString( project.name );
-
-      const renameButton = document.createElement( 'button' );
-      renameButton.classList.add( "button__detail", "rename__project" );
-      renameButton.textContent = "Rename";
-
-      const deleteButton = document.createElement( 'button' );
-      deleteButton.classList.add( "button__detail", "delete__project" );
-      deleteButton.textContent = "Delete";
-
-      projectNode.append( projectTitle, renameButton, deleteButton );
-
-      projectsContainer.insertBefore( projectNode, addProjectButton );
-    });
-  };
-
-  removeProjects();
-  addProjects();
 };
 
 const updateTasksList = ( tasks ) => {
@@ -112,7 +120,6 @@ const updateTasksList = ( tasks ) => {
 
     tasksContainer.insertBefore( taskNode, addTaskButton );
   });
-  console.log( selectedProjectName );
 }
 
 const getUpperCaseString = ( string ) => {
@@ -121,13 +128,13 @@ const getUpperCaseString = ( string ) => {
 
 const markProjectAsSelected = ( projects ) => {
   const selectedProject = projects.find( project => project.isSelected );
-  const projectNodes    = [...document.getElementsByClassName( "project__name" )];
+  const projectNodes    = [...document.getElementsByClassName( "project__wrapper" )];
   const selectedClass   = "selected__project";
 
   projectNodes.forEach( node => {
-    let projectName = node.textContent.toLowerCase();
+    let projectID = parseInt( node.dataset.projectId );
 
-    if ( projectName === selectedProject.name ) {
+    if ( projectID === selectedProject.id ) {
       node.classList.add( selectedClass );
     } else {
       node.classList.remove( selectedClass );
@@ -155,13 +162,13 @@ const reloadProjectOptions = () => {
 };
 
 export {
-  addProjectRenameControls,
   revealProjectForm,
   removeProjectForm,
   revealTaskForm,
   removeTaskForm,
   clearInput,
-  updateProjectsList,
+  displayProjects,
   updateTasksList,
   markProjectAsSelected,
+  toggleRenameControls,
 };

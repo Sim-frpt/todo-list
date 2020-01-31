@@ -1,10 +1,17 @@
-const projectFactory = ( name, isSelected = false ) => {
+const projectFactory = ( name, isSelected = false, id = null ) => {
   const tasks = [];
+  let _name  = name;
 
   const self = {
-    name,
-    tasks,
+    id,
     isSelected,
+    tasks,
+    get name() {
+      return _name;
+    },
+    set name( name ) {
+      return _name = name;
+    },
     toggleSelected() {
       return this.isSelected = ! this.isSelected;
     },

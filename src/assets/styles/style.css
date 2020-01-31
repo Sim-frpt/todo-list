@@ -1,3 +1,8 @@
+/*Used so that svg's inside a button will not capture an event listener*/
+button > * {
+  pointer-events: none;
+}
+
 .main__container {
   display: flex;
   margin: 2em 10%;

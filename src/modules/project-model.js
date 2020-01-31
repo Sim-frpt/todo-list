@@ -2,7 +2,7 @@ import { projectFactory } from "./project";
 
 const projects = [];
 
-const defaultProject = projectFactory( 'default', true );
+const defaultProject = projectFactory( 'default', true, 1 );
 
 projects.push( defaultProject );
 
@@ -13,7 +13,9 @@ const createProject = ( projectName ) => {
     }
   });
 
-  const newProject = projectFactory( projectName, true );
+  const projectID = projects.length > 0 ? projects.length + 1 : 1;
+
+  const newProject = projectFactory( projectName, true, projectID );
 
   projects.push( newProject );
 
@@ -36,4 +38,17 @@ const reorderProjects = ( projects ) => {
   });
 };
 
-export { createProject, projects };
+const renameProject = ( input ) => {
+  const newName = input.value.toLowerCase();
+  const oldName = input.dataset.projectPreviousName;
+
+  projects.map( project => {
+    if ( project.name === oldName ) {
+      project.name = newName;
+    }
+  });
+
+  reorderProjects( projects );
+};
+
+export { createProject, renameProject, projects };
