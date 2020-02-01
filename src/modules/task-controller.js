@@ -1,4 +1,4 @@
-import { createTask, tasks } from "./task-model";
+import { createTask, getCorrespondingTasks, tasks } from "./task-model";
 import * as pageInteraction from "./dom-manipulation";
 
 const handleTaskInteraction = ( event ) => {
@@ -35,7 +35,7 @@ const handleTaskRequest = ( event ) => {
 
   createTask( rawValues );
   pageInteraction.removeTaskForm( event );
-  pageInteraction.displayTasks( tasks );
+  pageInteraction.displayTasks();
 };
 
 const isTitleTaskValid = ( title ) => {
@@ -59,4 +59,4 @@ const passesBasicValidation = ( object ) => {
     return isRegexMatching;
 }
 
-export { handleTaskInteraction, tasks };
+export { getCorrespondingTasks, handleTaskInteraction, tasks };

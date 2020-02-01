@@ -3,6 +3,10 @@ import { createProject, deleteProject, renameProject, projects } from "./project
 import { tasks } from "./task-model";
 import * as pageInteraction from "./dom-manipulation";
 
+const getSelectedProject = () => {
+  return projects.find( project => project.isSelected === true );
+};
+
 const handleAddingProject = ( event ) => {
   const input = document.getElementsByClassName( "project__input" )[0];
 
@@ -16,7 +20,7 @@ const handleAddingProject = ( event ) => {
 
   pageInteraction.removeProjectForm( event );
   pageInteraction.displayProjects( projects );
-  pageInteraction.markProjectAsSelected( projects );
+  pageInteraction.markProjectAsSelected();
 };
 
 const handleDeleteButtonClick = ( event ) => {
@@ -32,7 +36,6 @@ const handleDeletingProject = ( projectNode, event ) => {
   const deleteId = parseInt( projectNode.dataset.projectId );
 
   deleteProject( deleteId );
-
   // TODO maybe I'll have to toggle selected on another project after deletion
 
   pageInteraction.displayProjects( projects );
@@ -51,8 +54,8 @@ const handleProjectFocus = ( event ) => {
     }
   });
 
-  pageInteraction.markProjectAsSelected( projects );
-  pageInteraction.displayTasks( tasks );
+  pageInteraction.markProjectAsSelected();
+  pageInteraction.displayTasks();
 };
 
 const handleProjectInteraction = ( event ) => {
@@ -138,6 +141,7 @@ const RenameProject = ( event ) => {
 };
 
 export {
+  getSelectedProject,
   handleProjectInteraction,
   handleProjectFocus,
   projects,

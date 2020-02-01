@@ -61,6 +61,7 @@ const deleteProject = ( id ) => {
   projects.splice( delIndex, 1 );
 
   reorderProjects( projects );
+
 };
 
 export { createProject, deleteProject, renameProject, projects };

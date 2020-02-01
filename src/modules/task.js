@@ -1,4 +1,5 @@
 const taskFactory = ( {
+  id = null,
   title,
   description,
   deadline,
@@ -7,6 +8,7 @@ const taskFactory = ( {
   project,
   checked = false,
 }) => ({
+  id,
   title,
   description,
   deadline,

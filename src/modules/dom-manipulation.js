@@ -1,6 +1,6 @@
 import MicroModal from "micromodal";
-import { projects } from "./project-controller"
-import { tasks } from "./task-controller"
+import { getSelectedProject, projects } from "./project-controller"
+import { getCorrespondingTasks, tasks } from "./task-controller"
 
 const projectForm = document.getElementsByClassName( "add__project" )[0];
 const taskForm     = document.getElementsByClassName( "task__form" )[0];
@@ -61,7 +61,7 @@ const displayProjects = ( projects ) => {
   const createProjectNode = ( project ) => {
     const projectNode = document.createElement( 'div' );
     projectNode.classList.add( "project__wrapper" );
-    projectNode.setAttribute( "data-project-id", `${project.id}` );
+    projectNode.setAttribute( "data-project-id", project.id );
 
     const projectTitle = document.createElement( "h3" );
     projectTitle.classList.add( "project__name" );
@@ -93,11 +93,9 @@ const displayProjects = ( projects ) => {
   projects.forEach( project => createProjectNode( project ) );
 };
 
-const displayTasks = ( tasks ) => {
+const displayTasks = () => {
   const tasksContainer      = document.getElementsByClassName( "tasks__container" )[0];
-  const selectedProjectNode = document.getElementsByClassName( "selected__project" )[0];
-  const selectedProjectId   = parseInt( selectedProjectNode.dataset.projectId );
-  const selectedProject     = projects.find( project => project.id === selectedProjectId );
+  const selectedProject     = getSelectedProject();
   const tasksList           = [...document.getElementsByClassName( "task__item" )];
   const addTaskButton       = document.getElementsByClassName( "reveal__task-inputs" )[0];
 
@@ -107,20 +105,19 @@ const displayTasks = ( tasks ) => {
     return;
   }
 
-  tasks.forEach( task => {
-    if ( task.project !== selectedProject.name ) {
-      return;
-    }
+  const correspondingTasks = getCorrespondingTasks( selectedProject );
 
+  correspondingTasks.forEach( task => {
     const taskNode  = document.createElement( 'div' );
-    const taskTitle = document.createElement( 'p' );
-    const taskDate  = document.createElement( 'span' );
-
     taskNode.classList.add( "task__item" );
-    taskTitle.classList.add( "task__title" );
-    taskDate.classList.add( "task__date" );
+    taskNode.setAttribute( "data-task-id", task.id );
 
+    const taskTitle = document.createElement( 'p' );
+    taskTitle.classList.add( "task__title" );
     taskTitle.textContent = getUpperCaseString( task.title );
+
+    const taskDate  = document.createElement( 'span' );
+    taskDate.classList.add( "task__date" );
     taskDate.textContent = task.deadline;
 
     taskNode.append( taskTitle, taskDate );
@@ -133,8 +130,8 @@ const getUpperCaseString = ( string ) => {
   return string.charAt(0).toUpperCase() + string.slice(1);
 };
 
-const markProjectAsSelected = ( projects ) => {
-  const selectedProject = projects.find( project => project.isSelected );
+const markProjectAsSelected = () => {
+  const selectedProject = getSelectedProject();
   const projectNodes    = [...document.getElementsByClassName( "project__wrapper" )];
   const selectedClass   = "selected__project";
 
