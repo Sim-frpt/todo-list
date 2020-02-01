@@ -19,11 +19,11 @@ const toggleRenameControls = ( okButton, cancelButton ) => {
   }
 };
 
-const revealProjectForm = ( event ) => {
+const revealProjectForm = () => {
   projectForm.style.display = 'block';
 };
 
-const removeProjectForm = ( event ) => {
+const removeProjectForm = () => {
   const projectInput = document.getElementsByClassName( "project__input" )[0];
 
   clearInput( projectInput );
@@ -31,7 +31,7 @@ const removeProjectForm = ( event ) => {
   projectForm.style.display = '';
 };
 
-const revealTaskForm = ( event ) => {
+const revealTaskForm = () => {
   reloadProjectOptions();
 
   taskForm.style.display = 'flex';
@@ -93,17 +93,22 @@ const displayProjects = ( projects ) => {
   projects.forEach( project => createProjectNode( project ) );
 };
 
-const updateTasksList = ( tasks ) => {
-  const tasksContainer      = document.getElementsByClassName( "todos__container" )[0];
-  const selectedProject     = document.getElementsByClassName( "selected__project" )[0];
-  const selectedProjectName = selectedProject.textContent.toLowerCase();
-  const tasksList           = [...document.getElementsByClassName( "todo__item" )];
+const displayTasks = ( tasks ) => {
+  const tasksContainer      = document.getElementsByClassName( "tasks__container" )[0];
+  const selectedProjectNode = document.getElementsByClassName( "selected__project" )[0];
+  const selectedProjectId   = parseInt( selectedProjectNode.dataset.projectId );
+  const selectedProject     = projects.find( project => project.id === selectedProjectId );
+  const tasksList           = [...document.getElementsByClassName( "task__item" )];
   const addTaskButton       = document.getElementsByClassName( "reveal__task-inputs" )[0];
 
   tasksList.forEach( node => node.remove() );
 
+  if ( ! selectedProject ) {
+    return;
+  }
+
   tasks.forEach( task => {
-    if ( task.project !== selectedProjectName ) {
+    if ( task.project !== selectedProject.name ) {
       return;
     }
 
@@ -111,9 +116,9 @@ const updateTasksList = ( tasks ) => {
     const taskTitle = document.createElement( 'p' );
     const taskDate  = document.createElement( 'span' );
 
-    taskNode.classList.add( "todo__item" );
-    taskTitle.classList.add( "todo__title" );
-    taskDate.classList.add( "todo__date" );
+    taskNode.classList.add( "task__item" );
+    taskTitle.classList.add( "task__title" );
+    taskDate.classList.add( "task__date" );
 
     taskTitle.textContent = getUpperCaseString( task.title );
     taskDate.textContent = task.deadline;
@@ -171,7 +176,7 @@ export {
   removeTaskForm,
   clearInput,
   displayProjects,
-  updateTasksList,
+  displayTasks,
   markProjectAsSelected,
   toggleRenameControls,
 };

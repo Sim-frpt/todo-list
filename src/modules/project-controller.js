@@ -33,6 +33,8 @@ const handleDeletingProject = ( projectNode, event ) => {
 
   deleteProject( deleteId );
 
+  // TODO maybe I'll have to toggle selected on another project after deletion
+
   pageInteraction.displayProjects( projects );
   pageInteraction.closeModal();
 };
@@ -50,36 +52,36 @@ const handleProjectFocus = ( event ) => {
   });
 
   pageInteraction.markProjectAsSelected( projects );
-  pageInteraction.updateTasksList( tasks );
+  pageInteraction.displayTasks( tasks );
 };
 
 const handleProjectInteraction = ( event ) => {
-  if ( event.target.classList.contains( "project__name" ) ) {
-    handleProjectFocus( event );
-    return;
-  }
-  if ( event.target.classList.contains( "rename__project") ) {
-    handleRenameButtonClick( event );
-    return;
-  }
-  if ( event.target.classList.contains( "delete__project" ) ) {
-    handleDeleteButtonClick( event );
-    return;
-  }
-  if ( event.target.classList.contains( "reveal__project-input" ) ) {
-    pageInteraction.revealProjectForm( event );
-  }
   if ( event.target.classList.contains( "button__add-project" ) ) {
     handleAddingProject( event );
   }
   if ( event.target.classList.contains( "button__close-project" ) ) {
     pageInteraction.removeProjectForm( event );
   }
-  if ( event.target.classList.contains( "rename__button-ok" ) ) {
-    RenameProject( event );
+  if ( event.target.classList.contains( "delete__project" ) ) {
+    handleDeleteButtonClick( event );
+    return;
+  }
+  if ( event.target.classList.contains( "project__name" ) ) {
+    handleProjectFocus( event );
+    return;
   }
   if ( event.target.classList.contains( "rename__button-cancel" ) ) {
     pageInteraction.displayProjects( projects );
+  }
+  if ( event.target.classList.contains( "rename__button-ok" ) ) {
+    RenameProject( event );
+  }
+  if ( event.target.classList.contains( "rename__project") ) {
+    handleRenameButtonClick( event );
+    return;
+  }
+  if ( event.target.classList.contains( "reveal__project-input" ) ) {
+    pageInteraction.revealProjectForm( event );
   }
 };
 

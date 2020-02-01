@@ -4,14 +4,16 @@ const taskFactory = ( {
   deadline,
   priority,
   notes,
-  project
+  project,
+  checked = false,
 }) => ({
   title,
   description,
   deadline,
   priority,
   notes,
-  project
+  project,
+  checked,
 });
 
 export { taskFactory };

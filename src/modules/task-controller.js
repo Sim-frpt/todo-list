@@ -1,5 +1,14 @@
 import { createTask, tasks } from "./task-model";
-import { removeTaskForm, updateTasksList } from "./dom-manipulation";
+import * as pageInteraction from "./dom-manipulation";
+
+const handleTaskInteraction = ( event ) => {
+  if ( event.target.classList.contains( "button__add-task" ) ) {
+    handleTaskRequest( event );
+  }
+  if ( event.target.classList.contains( "reveal__task-inputs" ) ) {
+    pageInteraction.revealTaskForm( event );
+  }
+};
 
 const handleTaskRequest = ( event ) => {
   event.preventDefault();
@@ -25,8 +34,8 @@ const handleTaskRequest = ( event ) => {
   }
 
   createTask( rawValues );
-  removeTaskForm( event );
-  updateTasksList( tasks );
+  pageInteraction.removeTaskForm( event );
+  pageInteraction.displayTasks( tasks );
 };
 
 const isTitleTaskValid = ( title ) => {
@@ -50,4 +59,4 @@ const passesBasicValidation = ( object ) => {
     return isRegexMatching;
 }
 
-export { handleTaskRequest, tasks };
+export { handleTaskInteraction, tasks };
