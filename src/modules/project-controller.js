@@ -1,6 +1,6 @@
-import { createProject, renameProject, projects } from "./project-model";
-import { tasks } from "./task-model";
 import MicroModal from "micromodal";
+import { createProject, deleteProject, renameProject, projects } from "./project-model";
+import { tasks } from "./task-model";
 import * as pageInteraction from "./dom-manipulation";
 
 const handleAddingProject = ( event ) => {
@@ -24,6 +24,17 @@ const handleDeleteButtonClick = ( event ) => {
 
   const projectNode = event.target.parentNode;
   const confirmDelete = document.getElementsByClassName( "modal__btn-primary" )[0];
+
+  confirmDelete.onclick = handleDeletingProject.bind( null, projectNode );
+};
+
+const handleDeletingProject = ( projectNode, event ) => {
+  const deleteId = parseInt( projectNode.dataset.projectId );
+
+  deleteProject( deleteId );
+
+  pageInteraction.displayProjects( projects );
+  pageInteraction.closeModal();
 };
 
 const handleProjectFocus = ( event ) => {

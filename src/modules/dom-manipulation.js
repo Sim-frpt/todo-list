@@ -1,8 +1,13 @@
+import MicroModal from "micromodal";
 import { projects } from "./project-controller"
 import { tasks } from "./task-controller"
 
 const projectForm = document.getElementsByClassName( "add__project" )[0];
 const taskForm     = document.getElementsByClassName( "task__form" )[0];
+
+const closeModal = () => {
+  MicroModal.close( "del-project-modal" );
+};
 
 const toggleRenameControls = ( okButton, cancelButton ) => {
   if ( okButton.style.display === '' ) {
@@ -76,6 +81,7 @@ const displayProjects = ( projects ) => {
 
     const deleteButton = document.createElement( 'button' );
     deleteButton.classList.add( "button__detail", "delete__project" );
+    deleteButton.setAttribute( "data-del-project-modal", "del-project-modal" );
     deleteButton.textContent = "Delete";
 
     projectNode.append( projectTitle, okButton, cancelButton, renameButton, deleteButton );
@@ -158,6 +164,7 @@ const reloadProjectOptions = () => {
 };
 
 export {
+  closeModal,
   revealProjectForm,
   removeProjectForm,
   revealTaskForm,

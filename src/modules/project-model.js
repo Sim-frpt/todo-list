@@ -50,4 +50,17 @@ const renameProject = ( input, id ) => {
   reorderProjects( projects );
 };
 
-export { createProject, renameProject, projects };
+const deleteProject = ( id ) => {
+
+  const delIndex = projects.findIndex( project => project.id === id );
+
+  if ( delIndex === -1 ) {
+    return;
+  }
+
+  projects.splice( delIndex, 1 );
+
+  reorderProjects( projects );
+};
+
+export { createProject, deleteProject, renameProject, projects };
