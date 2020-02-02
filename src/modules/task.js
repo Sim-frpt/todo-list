@@ -1,11 +1,11 @@
 const taskFactory = ( {
   id = null,
   title,
-  description,
-  deadline,
-  priority,
-  notes,
-  project,
+  description = '',
+  deadline = '',
+  priority = '',
+  notes = '',
+  project = '',
   checked = false,
 }) => ({
   id,

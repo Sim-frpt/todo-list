@@ -21,7 +21,7 @@ const getCorrespondingTasks = ( project ) => {
 const getFormattedObj = ( rawObject ) => {
   const date = rawObject.deadline;
 
-  if ( date === '' ) {
+  if ( date === '' || date === undefined ) {
     return rawObject;
   }
 

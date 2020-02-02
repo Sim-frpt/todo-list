@@ -8,6 +8,10 @@ const handleTaskInteraction = ( event ) => {
   if ( event.target.classList.contains( "reveal__task-inputs" ) ) {
     pageInteraction.revealTaskForm( event );
   }
+  if ( event.target.classList.contains( "task__item" ) ) {
+    // TODO expand task item on click
+    //pageInteraction.( event );
+  }
 };
 
 const handleTaskRequest = ( event ) => {

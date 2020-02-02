@@ -1,6 +1,6 @@
 import MicroModal from "micromodal";
-import { getSelectedProject, projects } from "./project-controller"
-import { getCorrespondingTasks, tasks } from "./task-controller"
+import { getSelectedProject, projects } from "./project-controller";
+import { getCorrespondingTasks } from "./task-controller";
 
 const projectForm = document.getElementsByClassName( "add__project" )[0];
 const taskForm     = document.getElementsByClassName( "task__form" )[0];
@@ -105,12 +105,16 @@ const displayTasks = () => {
     return;
   }
 
-  const correspondingTasks = getCorrespondingTasks( selectedProject );
+  const projectRelatedTasks = getCorrespondingTasks( selectedProject );
 
-  correspondingTasks.forEach( task => {
+  projectRelatedTasks.forEach( task => {
     const taskNode  = document.createElement( 'div' );
     taskNode.classList.add( "task__item" );
     taskNode.setAttribute( "data-task-id", task.id );
+
+    const checkBox = document.createElement( 'input' );
+    checkBox.type = 'checkbox';
+    checkBox.classList.add( "task__checkbox" );
 
     const taskTitle = document.createElement( 'p' );
     taskTitle.classList.add( "task__title" );
@@ -120,7 +124,31 @@ const displayTasks = () => {
     taskDate.classList.add( "task__date" );
     taskDate.textContent = task.deadline;
 
-    taskNode.append( taskTitle, taskDate );
+    const taskDescription = document.createElement( 'p' );
+    taskDescription.classList.add( "task__description", "task__hidden" );
+    taskDescription.textContent = task.description;
+
+    const taskNotes = document.createElement( 'p' );
+    taskNotes.classList.add( "task__notes", "task__hidden" );
+    taskNotes.textContent = task.notes;
+
+    const editButton = document.createElement( 'button' );
+    editButton.classList.add( "button__detail", "task__edit", "task__hidden" );
+    editButton.textContent = "Edit";
+
+    const deleteButton = document.createElement( 'button' );
+    deleteButton.classList.add( "button__detail", "task__delete", "task__hidden" );
+    deleteButton.textContent = "Delete";
+
+    taskNode.append(
+      checkBox,
+      taskTitle,
+      taskDate,
+      taskDescription,
+      taskNotes,
+      editButton,
+      deleteButton,
+    );
 
     tasksContainer.insertBefore( taskNode, addTaskButton );
   });
