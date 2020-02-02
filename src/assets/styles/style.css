@@ -19,7 +19,7 @@ button > * {
   display: none;
 }
 
-.todos__container {
+.tasks__container {
   flex-grow: 2;
   padding: 0 2em;
 }
@@ -36,4 +36,21 @@ button > * {
 
 .rename__button-cancel {
   display: none;
+}
+
+.task__item {
+  display: flex;
+}
+
+.task__checkbox, .task__title, .task__date {
+  margin: 1em 0;
+  padding: 0 1em;
+}
+
+.task__checkbox {
+  position: relative;
+  top: 3px;
+}
+.task__title {
+  margin: 1em 1em;
 }
