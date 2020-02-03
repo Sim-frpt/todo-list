@@ -40,6 +40,8 @@ button > * {
 
 .task__item {
   display: flex;
+  flex-wrap: wrap;
+  margin: 1em;
 }
 
 .task__checkbox, .task__title, .task__date {
@@ -51,6 +53,15 @@ button > * {
   position: relative;
   top: 3px;
 }
+
 .task__title {
   margin: 1em 1em;
+}
+
+.task__description, .task__notes {
+  flex-basis: 100%;
+}
+
+.task__hidden {
+  display: none;
 }
