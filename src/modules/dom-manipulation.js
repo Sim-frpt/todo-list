@@ -193,15 +193,37 @@ const reloadProjectOptions = () => {
   });
 };
 
+const revealTaskFields = ( event ) => {
+  let taskNode;
+
+  if ( event.target.classList.contains( "task__title" ) ) {
+    taskNode = event.target.parentNode;
+  } else {
+    taskNode = event.target;
+  }
+
+  const taskElements = [...taskNode.children];
+  const targetedClasses = [ "task__description", "task__notes", "task__edit", "task__delete"];
+
+  taskElements.forEach( element => {
+    if ( targetedClasses.some(
+      targetedClass => [...element.classList].includes( targetedClass ) )
+    ) {
+      element.classList.toggle( "task__hidden" );
+    }
+  });
+};
+
 export {
-  closeModal,
-  revealProjectForm,
-  removeProjectForm,
-  revealTaskForm,
-  removeTaskForm,
   clearInput,
+  closeModal,
   displayProjects,
   displayTasks,
   markProjectAsSelected,
+  removeProjectForm,
+  removeTaskForm,
+  revealProjectForm,
+  revealTaskForm,
+  revealTaskFields,
   toggleRenameControls,
 };
