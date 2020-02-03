@@ -6,16 +6,23 @@ const taskFactory = ( {
   priority = '',
   notes = '',
   project = '',
-  checked = false,
-}) => ({
-  id,
-  title,
-  description,
-  deadline,
-  priority,
-  notes,
-  project,
-  checked,
-});
+  status = false,
+}) => {
+  const self = {
+    id,
+    title,
+    description,
+    deadline,
+    priority,
+    notes,
+    project,
+    status,
+    toggleStatus() {
+      self.status = ! self.status;
+    },
+  };
+
+  return self;
+};
 
 export { taskFactory };

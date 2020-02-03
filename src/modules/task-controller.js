@@ -1,5 +1,32 @@
-import { createTask, getCorrespondingTasks, tasks } from "./task-model";
+import {
+  createTask,
+  getCorrespondingTasks,
+  getStandardDate,
+  getTask,
+  tasks,
+  updateCheckedStatus,
+} from "./task-model";
+
 import * as pageInteraction from "./dom-manipulation";
+
+const handleCheckBoxClick = ( event ) => {
+  //const isChecked = event.target.checked;
+  const taskId = parseInt( event.target.parentNode.dataset.taskId );
+
+  updateCheckedStatus( taskId );
+
+  // TODO visual checked/unchecked styling in dom-manipulation
+};
+
+const handleEditButtonClick = ( event ) => {
+  const taskNode = event.target.parentNode;
+  const taskId = parseInt( taskNode.dataset.taskId );
+
+  const task = getTask( taskId );
+
+  pageInteraction.displayEditTaskForm( taskNode, task );
+
+};
 
 const handleTaskInteraction = ( event ) => {
   if ( event.target.classList.contains( "button__add-task" ) ) {
@@ -9,10 +36,19 @@ const handleTaskInteraction = ( event ) => {
     pageInteraction.revealTaskForm( event );
   }
   if (
-    event.currentTarget.classList.contains( "task__item" ) ||
+    event.target.classList.contains( "task__item" ) ||
     event.target.classList.contains( "task__title" )
   ) {
     pageInteraction.revealTaskFields( event );
+  }
+  if ( event.target.classList.contains( "task__checkbox" ) ) {
+    handleCheckBoxClick( event );
+  }
+  if ( event.target.classList.contains( "task__edit" ) ) {
+    handleEditButtonClick( event );
+  }
+  if ( event.target.classList.contains( "task__delete" ) ) {
+
   }
 };
 
@@ -21,6 +57,9 @@ const handleTaskRequest = ( event ) => {
 
   const form = document.getElementsByClassName( "task__form" )[0];
   const formInputs = [...form.elements].filter( element => element.tagName !== 'BUTTON' );
+
+  const taskStatus = formInputs.find( input => input.name === 'status' );
+  taskStatus.value = taskStatus.checked ? true : false;
 
   const rawValues = formInputs.reduce( ( obj, field ) => {
     obj[field.name] = field.value;
@@ -65,4 +104,9 @@ const passesBasicValidation = ( object ) => {
     return isRegexMatching;
 }
 
-export { getCorrespondingTasks, handleTaskInteraction, tasks };
+export {
+  getCorrespondingTasks,
+  getStandardDate,
+  handleTaskInteraction,
+  tasks,
+};

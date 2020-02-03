@@ -1,7 +1,20 @@
 import MicroModal from "micromodal";
 import { createProject, deleteProject, renameProject, projects } from "./project-model";
-import { tasks } from "./task-model";
 import * as pageInteraction from "./dom-manipulation";
+
+const confirmRename = ( event ) => {
+  const input = document.getElementById( "project-rename-input" );
+  const projectID = parseInt( event.target.parentNode.dataset.projectId );
+
+  if ( ! isInputValid( input ) || isNameAlreadyTaken( input.value.toLowerCase() ) ) {
+    input.focus();
+
+    return;
+  }
+
+  renameProject( input, projectID );
+  pageInteraction.displayProjects( projects );
+};
 
 const getSelectedProject = () => {
   return projects.find( project => project.isSelected === true );
@@ -77,7 +90,7 @@ const handleProjectInteraction = ( event ) => {
     pageInteraction.displayProjects( projects );
   }
   if ( event.target.classList.contains( "rename__button-ok" ) ) {
-    RenameProject( event );
+    confirmRename( event );
   }
   if ( event.target.classList.contains( "rename__project") ) {
     handleRenameButtonClick( event );
@@ -91,7 +104,7 @@ const handleProjectInteraction = ( event ) => {
 const handleRenameButtonClick = ( event ) => {
   const parentNode = event.target.parentNode;
 
-  const focusedProject = parentNode.firstChild;
+  const focusedProject = parentNode.getElementsByClassName( "project__name" )[0];
   const confirmButton = parentNode.getElementsByClassName( "rename__button-ok" )[0];
   const cancelButton = parentNode.getElementsByClassName( "rename__button-cancel" )[0];
 
@@ -124,20 +137,6 @@ const isNameAlreadyTaken = input => {
   }
 
   return isnameTaken;
-};
-
-const RenameProject = ( event ) => {
-  const input = document.getElementById( "project-rename-input" );
-  const projectID = parseInt( event.target.parentNode.dataset.projectId );
-
-  if ( ! isInputValid( input ) || isNameAlreadyTaken( input.value.toLowerCase() ) ) {
-    input.focus();
-
-    return;
-  }
-
-  renameProject( input, projectID );
-  pageInteraction.displayProjects( projects );
 };
 
 export {

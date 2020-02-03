@@ -1,12 +1,148 @@
 import MicroModal from "micromodal";
 import { getSelectedProject, projects } from "./project-controller";
-import { getCorrespondingTasks } from "./task-controller";
+import { getCorrespondingTasks, getStandardDate } from "./task-controller";
 
 const projectForm = document.getElementsByClassName( "add__project" )[0];
 const taskForm     = document.getElementsByClassName( "task__form" )[0];
 
 const closeModal = () => {
   MicroModal.close( "del-project-modal" );
+};
+
+const createEditForm = ( task ) => {
+  // reparse the enhanced date to be a standard one
+  task.deadline = getStandardDate( task.deadline );
+
+  const form = document.createElement( 'form' );
+  form.classList.add( "edit__form" );
+
+  const formFieldNames = Object.keys( task ).filter( key => {
+    if ( key === 'id' || key === 'toggleStatus' ) {
+      return false;
+    } else {
+      return true;
+    }
+  } );
+
+  const buttonDiv = document.createElement( 'div' );
+  buttonDiv.classList.add( "edit__form-controls" );
+
+  const confirmButton = document.createElement( 'button' );
+  confirmButton.classList.add( "edit-button", "edit__button-confirm" );
+  confirmButton.innerHTML = "<i class='fas fa-check'></i>";
+
+  const cancelButton = document.createElement( 'button' );
+  cancelButton.classList.add( "edit-button", "edit__button-cancel" );
+  cancelButton.innerHTML = "<i class='fas fa-times'></i>";
+
+  buttonDiv.append( confirmButton, cancelButton );
+
+  formFieldNames.forEach( field => {
+    const newDiv = document.createElement( 'div' );
+    newDiv.classList.add( "edit__form-node", `task__${field}--edit` );
+
+    const newLabel = document.createElement( 'label' );
+    newLabel.setAttribute( 'for', `edit-${field}` );
+    if ( field === 'status' ) {
+      newLabel.textContent = 'Completed';
+    } else {
+      newLabel.textContent = getUpperCaseString( field );
+    }
+
+    newDiv.append( newLabel );
+
+    switch( field ) {
+      case 'title':
+        let title = document.createElement( 'input' );
+        title.type = 'text';
+        title.setAttribute( 'id', `edit-${field}` );
+        title.value = task[field];
+        newDiv.append( title );
+        break;
+
+      case 'deadline':
+        let deadline = document.createElement( 'input' );
+        deadline.type = 'date';
+        deadline.setAttribute( 'id', `edit-${field}` );
+        deadline.value = task[field];
+        newDiv.append( deadline );
+        break;
+
+      case 'description':
+      case 'notes':
+        let textArea = document.createElement( 'textarea' );
+        textArea.setAttribute( 'id', `edit-${field}` );
+        textArea.value = task[field];
+        newDiv.append( textArea );
+        break;
+
+      case 'priority':
+        let prioritySelect = document.createElement( 'select' );
+        prioritySelect.setAttribute( 'id', `edit-${field}` );
+
+        let option1 = document.createElement( 'option' );
+        option1.value = 1;
+        option1.selected = task[field] === option1.value ? true : false;
+        option1.text = 'Low';
+
+        let option2 = document.createElement( 'option' );
+        option2.value = 2;
+        option2.selected = task[field] === option2.value ? true : false;
+        option2.text = 'Normal';
+
+        let option3 = document.createElement( 'option' );
+        option3.value = 3;
+        option3.selected = task[field] === option3.value ? true : false;
+        option3.text = 'High';
+
+        prioritySelect.add( option1 );
+        prioritySelect.add( option2 );
+        prioritySelect.add( option3 );
+        newDiv.append( prioritySelect );
+        break;
+
+      case 'project':
+        let projectSelect = document.createElement( 'select' );
+        projectSelect.setAttribute( 'id', `edit-${field}` );
+
+        projects.forEach( project => {
+          let option = document.createElement( 'option' );
+          option.value = project.id;
+          option.textContent = getUpperCaseString( project.name );
+
+          if ( project.name === task[field] ) {
+            option.selected = true;
+          }
+
+          projectSelect.add( option );
+        } );
+
+        newDiv.append( projectSelect );
+        break;
+
+      case 'status':
+        let status = document.createElement( 'input' );
+        status.setAttribute( 'id', `edit-${field}` );
+        status.type = 'checkbox';
+        status.checked = task[field] ? true : false;
+
+        newDiv.append( status );
+        break;
+    }
+
+    form.append( newDiv );
+  });
+
+  form.append( buttonDiv );
+
+  return form;
+};
+
+const displayEditTaskForm = ( taskNode, task ) => {
+  taskNode.innerHTML = '';
+
+  const editForm = createEditForm( task );
+  taskNode.append( editForm );
 };
 
 const toggleRenameControls = ( okButton, cancelButton ) => {
@@ -182,7 +318,7 @@ const reloadProjectOptions = () => {
   projects.forEach( project => {
     let option = document.createElement( 'option' );
 
-    option.value = project.name;
+    option.value = project.id;
     option.textContent = getUpperCaseString( project.name );
 
     if ( project.isSelected ) {
@@ -217,6 +353,7 @@ const revealTaskFields = ( event ) => {
 export {
   clearInput,
   closeModal,
+  displayEditTaskForm,
   displayProjects,
   displayTasks,
   markProjectAsSelected,
