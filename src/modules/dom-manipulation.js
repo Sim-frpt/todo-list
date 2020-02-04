@@ -57,6 +57,8 @@ const createEditForm = ( task ) => {
         title.type = 'text';
         title.setAttribute( 'id', `edit-${field}` );
         title.value = task[field];
+        title.name = field;
+
         newDiv.append( title );
         break;
 
@@ -65,6 +67,8 @@ const createEditForm = ( task ) => {
         deadline.type = 'date';
         deadline.setAttribute( 'id', `edit-${field}` );
         deadline.value = task[field];
+        deadline.name = field;
+
         newDiv.append( deadline );
         break;
 
@@ -73,12 +77,15 @@ const createEditForm = ( task ) => {
         let textArea = document.createElement( 'textarea' );
         textArea.setAttribute( 'id', `edit-${field}` );
         textArea.value = task[field];
+        textArea.name = field;
+
         newDiv.append( textArea );
         break;
 
       case 'priority':
         let prioritySelect = document.createElement( 'select' );
         prioritySelect.setAttribute( 'id', `edit-${field}` );
+        prioritySelect.name = field;
 
         let option1 = document.createElement( 'option' );
         option1.value = 1;
@@ -104,6 +111,7 @@ const createEditForm = ( task ) => {
       case 'project':
         let projectSelect = document.createElement( 'select' );
         projectSelect.setAttribute( 'id', `edit-${field}` );
+        projectSelect.name = field;
 
         projects.forEach( project => {
           let option = document.createElement( 'option' );
@@ -124,6 +132,7 @@ const createEditForm = ( task ) => {
         let status = document.createElement( 'input' );
         status.setAttribute( 'id', `edit-${field}` );
         status.type = 'checkbox';
+        status.name = field;
         status.checked = task[field] ? true : false;
 
         newDiv.append( status );
@@ -173,16 +182,20 @@ const revealTaskForm = () => {
   taskForm.style.display = 'flex';
 };
 
+const deleteEditTaskForm = ( form ) => {
+  form.remove();
+};
+
 const removeTaskForm = ( event ) => {
   event.preventDefault();
 
-  const form = [ ...event.target.form ];
+  const form = event.target.form;
 
-  form.forEach( formElement => {
+  [...form].forEach( formElement => {
     clearInput( formElement );
   });
 
-  taskForm.style.display = '';
+  form.style.display = '';
 };
 
 const clearInput = ( input ) => {
@@ -353,6 +366,7 @@ const revealTaskFields = ( event ) => {
 export {
   clearInput,
   closeModal,
+  deleteEditTaskForm,
   displayEditTaskForm,
   displayProjects,
   displayTasks,

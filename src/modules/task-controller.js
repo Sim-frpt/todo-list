@@ -5,6 +5,7 @@ import {
   getTask,
   tasks,
   updateCheckedStatus,
+  updateTask,
 } from "./task-model";
 
 import * as pageInteraction from "./dom-manipulation";
@@ -28,9 +29,31 @@ const handleEditButtonClick = ( event ) => {
 
 };
 
+const handleEditTask = ( event ) => {
+  const form = event.target.form;
+  const rawValues = getFormValues( form );
+
+  const targetedTaskId = parseInt( event.target.form.parentNode.dataset.taskId );
+
+  if ( ! isTitleTaskValid( rawValues.title ) ) {
+    alert( "Please enter a title that is longer than 3 characters" );
+    document.getElementById( "edit-title" ).focus();
+
+    return;
+  } else if ( ! passesBasicValidation( rawValues ) ) {
+    alert( "Please make sure not to use special characters" );
+
+    return;
+  }
+
+  updateTask( rawValues, targetedTaskId );
+  pageInteraction.deleteEditTaskForm( form );
+  pageInteraction.displayTasks();
+};
+
 const handleTaskInteraction = ( event ) => {
   if ( event.target.classList.contains( "button__add-task" ) ) {
-    handleTaskRequest( event );
+    handleAddTaskClick( event );
   }
   if ( event.target.classList.contains( "reveal__task-inputs" ) ) {
     pageInteraction.revealTaskForm( event );
@@ -47,25 +70,20 @@ const handleTaskInteraction = ( event ) => {
   if ( event.target.classList.contains( "task__edit" ) ) {
     handleEditButtonClick( event );
   }
+  if ( event.target.classList.contains( "edit__button-confirm" ) ) {
+    event.preventDefault();
+
+    handleEditTask( event );
+  }
   if ( event.target.classList.contains( "task__delete" ) ) {
 
   }
 };
 
-const handleTaskRequest = ( event ) => {
+const handleAddTaskClick = ( event ) => {
   event.preventDefault();
 
-  const form = document.getElementsByClassName( "task__form" )[0];
-  const formInputs = [...form.elements].filter( element => element.tagName !== 'BUTTON' );
-
-  const taskStatus = formInputs.find( input => input.name === 'status' );
-  taskStatus.value = taskStatus.checked ? true : false;
-
-  const rawValues = formInputs.reduce( ( obj, field ) => {
-    obj[field.name] = field.value;
-
-    return obj;
-  }, {});
+  const rawValues = getFormValues( event.target.form );
 
   if ( ! isTitleTaskValid( rawValues.title ) ) {
     alert( "Please enter a title that is longer than 3 characters" );
@@ -83,6 +101,26 @@ const handleTaskRequest = ( event ) => {
   pageInteraction.displayTasks();
 };
 
+const getFormValues = ( form ) => {
+
+  const formInputs = [...form.elements].filter( element => element.tagName !== 'BUTTON' );
+
+  const taskStatus = formInputs.find( input => input.name === 'status' );
+  taskStatus.value = taskStatus.checked ? true : false;
+
+  const valuesObject = formInputs.reduce( ( obj, field ) => {
+    if ( field.name === 'project' || field.name === 'priority' ) {
+      obj[field.name] = parseInt( field.value );
+    } else {
+      obj[field.name] = field.value;
+    }
+
+    return obj;
+  }, {});
+
+  return valuesObject;
+}
+
 const isTitleTaskValid = ( title ) => {
   if ( title.length < 3 ) {
     return false;
@@ -98,7 +136,8 @@ const passesBasicValidation = ( object ) => {
       return true;
     }
 
-    return value.match( acceptedChars );
+    // ToString because num values don't have a match function
+    return value.toString().match( acceptedChars );
   });
 
     return isRegexMatching;

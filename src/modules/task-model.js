@@ -16,7 +16,7 @@ const createTask = ( object ) => {
 }
 
 const getCorrespondingTasks = ( project ) => {
-  return tasks.filter( task => task.project === project.name );
+  return tasks.filter( task => task.project === project.id );
 }
 
 const getFormattedDate = ( date ) => {
@@ -50,13 +50,21 @@ const updateCheckedStatus = ( id ) => {
   task.toggleStatus();
 };
 
+const updateTask = ( object, taskId ) => {
+  const taskToUpdate= tasks.find( task => task.id === taskId );
+
+  object.deadline = getFormattedDate( object.deadline );
+
+  Object.assign( taskToUpdate, object );
+};
+
 createTask({
-  title:'hi',
+  title:'sdfhi',
   description:'lol',
   deadline:'2020-02-18',
   priority:'3',
   notes:'xcv',
-  project:'default',
+  project: 1,
   status: true,
 });
 
@@ -66,7 +74,7 @@ createTask({
   deadline:'',
   priority:'',
   notes:'',
-  project:'default'
+  project:1,
 });
 
 export {
@@ -75,5 +83,6 @@ export {
   getStandardDate,
   getTask,
   tasks,
+  updateTask,
   updateCheckedStatus,
 };
