@@ -1,6 +1,7 @@
 import MicroModal from "micromodal";
+import { format, parseISO } from "date-fns";
 import { getSelectedProject, projects } from "./project-controller";
-import { getCorrespondingTasks, getStandardDate } from "./task-controller";
+import { getCorrespondingTasks } from "./task-controller";
 
 const projectForm = document.getElementsByClassName( "add__project" )[0];
 const taskForm     = document.getElementsByClassName( "task__form" )[0];
@@ -10,9 +11,6 @@ const closeModal = () => {
 };
 
 const createEditForm = ( task ) => {
-  // reparse the enhanced date to be a standard one
-  task.deadline = getStandardDate( task.deadline );
-
   const form = document.createElement( 'form' );
   form.classList.add( "edit__form" );
 
@@ -43,6 +41,7 @@ const createEditForm = ( task ) => {
 
     const newLabel = document.createElement( 'label' );
     newLabel.setAttribute( 'for', `edit-${field}` );
+
     if ( field === 'status' ) {
       newLabel.textContent = 'Completed';
     } else {
@@ -118,7 +117,7 @@ const createEditForm = ( task ) => {
           option.value = project.id;
           option.textContent = getUpperCaseString( project.name );
 
-          if ( project.name === task[field] ) {
+          if ( project.id === task[field] ) {
             option.selected = true;
           }
 
@@ -271,7 +270,7 @@ const displayTasks = () => {
 
     const taskDate  = document.createElement( 'span' );
     taskDate.classList.add( "task__date" );
-    taskDate.textContent = task.deadline;
+    taskDate.textContent = getFormattedDate( task.deadline );
 
     const taskDescription = document.createElement( 'p' );
     taskDescription.classList.add( "task__description", "task__hidden" );
@@ -301,6 +300,17 @@ const displayTasks = () => {
 
     tasksContainer.insertBefore( taskNode, addTaskButton );
   });
+}
+
+const getFormattedDate = ( date ) => {
+
+  if ( date === '' || date === undefined ) {
+    return date;
+  }
+
+  const formattedDate = format( parseISO( date ), "do 'of' MMMM yyyy");
+
+  return formattedDate;
 }
 
 const getUpperCaseString = ( string ) => {

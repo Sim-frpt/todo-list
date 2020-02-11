@@ -1,7 +1,6 @@
 import {
   createTask,
   getCorrespondingTasks,
-  getStandardDate,
   getTask,
   tasks,
   updateCheckedStatus,
@@ -145,7 +144,6 @@ const passesBasicValidation = ( object ) => {
 
 export {
   getCorrespondingTasks,
-  getStandardDate,
   handleTaskInteraction,
   tasks,
 };
