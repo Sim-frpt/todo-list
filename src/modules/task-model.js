@@ -13,6 +13,16 @@ const createTask = ( object ) => {
   tasks.push( newTask );
 }
 
+const deleteTask  = ( id ) => {
+  const delIndex = tasks.findIndex( task => task.id === id );
+
+  if ( delIndex === -1 ) {
+    return;
+  }
+
+  tasks.splice( delIndex, 1 );
+};
+
 const getBooleanStatus = ( object ) => {
   if ( object.status === 'true' ) {
     object.status = true;
@@ -65,6 +75,7 @@ createTask({
 
 export {
   createTask,
+  deleteTask,
   getCorrespondingTasks,
   getTask,
   tasks,

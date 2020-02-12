@@ -51,7 +51,6 @@ const renameProject = ( input, id ) => {
 };
 
 const deleteProject = ( id ) => {
-
   const delIndex = projects.findIndex( project => project.id === id );
 
   if ( delIndex === -1 ) {

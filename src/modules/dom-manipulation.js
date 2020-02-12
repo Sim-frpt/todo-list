@@ -6,8 +6,8 @@ import { getCorrespondingTasks } from "./task-controller";
 const projectForm = document.getElementsByClassName( "add__project" )[0];
 const taskForm     = document.getElementsByClassName( "task__form" )[0];
 
-const closeModal = () => {
-  MicroModal.close( "del-project-modal" );
+const closeModal = ( modalToClose ) => {
+  MicroModal.close( modalToClose );
 };
 
 const createEditForm = ( task ) => {

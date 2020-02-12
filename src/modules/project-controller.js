@@ -37,22 +37,23 @@ const handleAddingProject = ( event ) => {
 };
 
 const handleDeleteButtonClick = ( event ) => {
-  MicroModal.show( "del-project-modal", { awaitCloseAnimation: true } );
+  const modalId = "del-project-modal";
+  MicroModal.show( modalId, { awaitCloseAnimation: true } );
 
   const projectNode = event.target.parentNode;
-  const confirmDelete = document.getElementsByClassName( "modal__btn-primary" )[0];
+  const confirmDelete = document.getElementsByClassName( "project__modal-del" )[0];
 
-  confirmDelete.onclick = handleDeletingProject.bind( null, projectNode );
+  confirmDelete.onclick = handleDeletingProject.bind( null, projectNode, modalId );
 };
 
-const handleDeletingProject = ( projectNode, event ) => {
+const handleDeletingProject = ( projectNode, modalId, event ) => {
   const deleteId = parseInt( projectNode.dataset.projectId );
 
   deleteProject( deleteId );
   // TODO maybe I'll have to toggle selected on another project after deletion
 
   pageInteraction.displayProjects( projects );
-  pageInteraction.closeModal();
+  pageInteraction.closeModal( modalId );
 };
 
 const handleProjectFocus = ( event ) => {
@@ -104,7 +105,7 @@ const handleProjectInteraction = ( event ) => {
 const handleRenameButtonClick = ( event ) => {
   const parentNode = event.target.parentNode;
 
-  const focusedProject = parentNode.getElementsByClassName( "project__name" )[0];
+  const focusedProject = parentNode.firstChild;
   const confirmButton = parentNode.getElementsByClassName( "rename__button-ok" )[0];
   const cancelButton = parentNode.getElementsByClassName( "rename__button-cancel" )[0];
 

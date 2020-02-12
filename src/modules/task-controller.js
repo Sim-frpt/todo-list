@@ -1,12 +1,13 @@
 import {
   createTask,
+  deleteTask,
   getCorrespondingTasks,
   getTask,
   tasks,
   updateCheckedStatus,
   updateTask,
 } from "./task-model";
-
+import MicroModal from "micromodal";
 import * as pageInteraction from "./dom-manipulation";
 
 const handleCheckBoxClick = ( event ) => {
@@ -75,7 +76,7 @@ const handleTaskInteraction = ( event ) => {
     handleEditTask( event );
   }
   if ( event.target.classList.contains( "task__delete" ) ) {
-
+    handleDeleteButtonClick( event );
   }
 };
 
@@ -98,6 +99,27 @@ const handleAddTaskClick = ( event ) => {
   createTask( rawValues );
   pageInteraction.removeTaskForm( event );
   pageInteraction.displayTasks();
+};
+
+const handleDeleteButtonClick = ( event ) => {
+  const modalId = "del-task-modal";
+  console.log( event );
+  MicroModal.show( modalId, { awaitCloseAnimation: true } );
+
+  const projectNode = event.target.parentNode;
+  const confirmDelete = document.getElementsByClassName( "task__modal-del" )[0];
+
+  confirmDelete.onclick = handleDeletingProject.bind( null, projectNode, modalId );
+};
+
+const handleDeletingProject = ( projectNode, modalId, event ) => {
+  const deleteId = parseInt( projectNode.dataset.taskId );
+
+  deleteTask( deleteId );
+  // TODO maybe I'll have to toggle selected on another project after deletion
+
+  pageInteraction.displayTasks( tasks );
+  pageInteraction.closeModal( modalId );
 };
 
 const getFormValues = ( form ) => {
