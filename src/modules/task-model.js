@@ -6,10 +6,20 @@ const createTask = ( object ) => {
   const taskId = tasks.length > 0 ? tasks.length + 1 : 1;
   object.id = taskId;
 
+  getBooleanStatus( object );
+
   const newTask = taskFactory( object );
 
   tasks.push( newTask );
 }
+
+const getBooleanStatus = ( object ) => {
+  if ( object.status === 'true' ) {
+    object.status = true;
+  } else if ( object.status === 'false' ) {
+    object.status = false;
+  }
+};
 
 const getCorrespondingTasks = ( project ) => {
   return tasks.filter( task => task.project === project.id );
@@ -27,6 +37,8 @@ const updateCheckedStatus = ( id ) => {
 
 const updateTask = ( object, taskId ) => {
   const taskToUpdate= tasks.find( task => task.id === taskId );
+
+  getBooleanStatus( object );
 
   Object.assign( taskToUpdate, object );
 };
@@ -48,6 +60,7 @@ createTask({
   priority:'',
   notes:'',
   project:1,
+  status: false,
 });
 
 export {

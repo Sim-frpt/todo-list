@@ -104,6 +104,7 @@ const createEditForm = ( task ) => {
         prioritySelect.add( option1 );
         prioritySelect.add( option2 );
         prioritySelect.add( option3 );
+
         newDiv.append( prioritySelect );
         break;
 
@@ -263,6 +264,10 @@ const displayTasks = () => {
     const checkBox = document.createElement( 'input' );
     checkBox.type = 'checkbox';
     checkBox.classList.add( "task__checkbox" );
+
+    if ( task.status === true ) {
+      checkBox.checked = true;
+    }
 
     const taskTitle = document.createElement( 'p' );
     taskTitle.classList.add( "task__title" );
