@@ -39,6 +39,46 @@ const getTask = ( id ) => {
   return tasks.find( task => task.id === id );
 };
 
+const orderTasks = ( selectedTasks ) => {
+
+  const sortByDate = ( a, b ) => {
+    if (
+      ! a.deadline && b.deadline !== '' ||
+      a.deadline > b.deadline && b.deadline !== ''
+      ) {
+      return 1;
+    } else if (
+      a.deadline !== '' && ! b.deadline ||
+      ! a.deadline && ! b.deadline ||
+      a.deadline <= b.deadline
+    ) {
+      return -1;
+    }
+  };
+
+  const sortByName = ( a, b ) => {
+    let A = a.title.toUpperCase();
+    let B = b.title.toUpperCase();
+
+    if ( a.deadline || b.deadline ) {
+      return 0;
+    }
+
+    if ( A < B ) {
+      return -1;
+    }
+    if ( A > B ) {
+      return 1;
+    }
+
+    return 0;
+  };
+
+  const sortedTasks = selectedTasks.sort( sortByDate );
+
+  return sortedTasks.sort( sortByName );
+};
+
 const updateCheckedStatus = ( id ) => {
   const task = tasks.find( task => task.id === id );
 
@@ -78,6 +118,7 @@ export {
   deleteTask,
   getCorrespondingTasks,
   getTask,
+  orderTasks,
   tasks,
   updateTask,
   updateCheckedStatus,

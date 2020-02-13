@@ -3,6 +3,7 @@ import {
   deleteTask,
   getCorrespondingTasks,
   getTask,
+  orderTasks,
   tasks,
   updateCheckedStatus,
   updateTask,
@@ -167,5 +168,6 @@ const passesBasicValidation = ( object ) => {
 export {
   getCorrespondingTasks,
   handleTaskInteraction,
+  orderTasks,
   tasks,
 };

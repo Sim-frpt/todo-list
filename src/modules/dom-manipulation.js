@@ -1,7 +1,7 @@
 import MicroModal from "micromodal";
 import { format, parseISO } from "date-fns";
 import { getSelectedProject, projects } from "./project-controller";
-import { getCorrespondingTasks } from "./task-controller";
+import { getCorrespondingTasks, orderTasks } from "./task-controller";
 
 const projectForm = document.getElementsByClassName( "add__project" )[0];
 const taskForm     = document.getElementsByClassName( "task__form" )[0];
@@ -256,7 +256,9 @@ const displayTasks = () => {
 
   const projectRelatedTasks = getCorrespondingTasks( selectedProject );
 
-  projectRelatedTasks.forEach( task => {
+  const orderedTasks = orderTasks( projectRelatedTasks );
+
+  orderedTasks.forEach( task => {
     const taskNode  = document.createElement( 'div' );
     taskNode.classList.add( "task__item" );
     taskNode.setAttribute( "data-task-id", task.id );
