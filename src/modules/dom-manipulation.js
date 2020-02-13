@@ -45,11 +45,11 @@ const createEditForm = ( task ) => {
   buttonDiv.classList.add( "edit__form-controls" );
 
   const confirmButton = document.createElement( 'button' );
-  confirmButton.classList.add( "edit-button", "edit__button-confirm" );
+  confirmButton.classList.add( "button--secondary", "edit-button", "edit__button-confirm" );
   confirmButton.innerHTML = "<i class='fas fa-check'></i>";
 
   const cancelButton = document.createElement( 'button' );
-  cancelButton.classList.add( "edit-button", "edit__button-cancel" );
+  cancelButton.classList.add( "button--secondary", "edit-button", "edit__button-cancel" );
   cancelButton.innerHTML = "<i class='fas fa-times'></i>";
 
   buttonDiv.append( confirmButton, cancelButton );
@@ -236,19 +236,19 @@ const displayProjects = ( projects ) => {
     projectTitle.textContent = getUpperCaseString( project.name );
 
     const renameButton = document.createElement( 'button' );
-    renameButton.classList.add( "button__detail", "rename__project" );
+    renameButton.classList.add( "button--main", "rename__project" );
     renameButton.textContent = "Rename";
 
     const okButton = document.createElement( 'button' );
-    okButton.classList.add( "rename__button-ok" );
+    okButton.classList.add( "button--secondary", "rename__button-ok" );
     okButton.innerHTML = "<i class='fas fa-check'></i>";
 
     const cancelButton = document.createElement( 'button' );
-    cancelButton.classList.add( "rename__button-cancel" );
+    cancelButton.classList.add( "button--secondary", "rename__button-cancel" );
     cancelButton.innerHTML = "<i class='fas fa-times'></i>";
 
     const deleteButton = document.createElement( 'button' );
-    deleteButton.classList.add( "button__detail", "delete__project" );
+    deleteButton.classList.add( "button--main", "delete__project" );
     deleteButton.setAttribute( "data-del-project-modal", "del-project-modal" );
     deleteButton.textContent = "Delete";
 
@@ -309,11 +309,11 @@ const displayTasks = () => {
     taskNotes.textContent = task.notes;
 
     const editButton = document.createElement( 'button' );
-    editButton.classList.add( "button__detail", "task__edit", "task__hidden" );
+    editButton.classList.add( "button--main", "task__edit", "task__hidden" );
     editButton.textContent = "Edit";
 
     const deleteButton = document.createElement( 'button' );
-    deleteButton.classList.add( "button__detail", "task__delete", "task__hidden" );
+    deleteButton.classList.add( "button--main", "task__delete", "task__hidden" );
     deleteButton.textContent = "Delete";
 
     taskNode.append(
