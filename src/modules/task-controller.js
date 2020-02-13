@@ -56,6 +56,9 @@ const handleTaskInteraction = ( event ) => {
   if ( event.target.classList.contains( "button__add-task" ) ) {
     handleAddTaskClick( event );
   }
+  if ( event.target.classList.contains( "button__close-task-form" ) ) {
+    pageInteraction.removeTaskForm( event );
+  }
   if ( event.target.classList.contains( "reveal__task-inputs" ) ) {
     pageInteraction.revealTaskForm( event );
   }
