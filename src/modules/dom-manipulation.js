@@ -6,6 +6,25 @@ import { getCorrespondingTasks, orderTasks } from "./task-controller";
 const projectForm = document.getElementsByClassName( "add__project" )[0];
 const taskForm     = document.getElementsByClassName( "task__form" )[0];
 
+const assignTaskPriorityClass = ( task ) => {
+  let classString = '';
+  switch ( parseInt( task.priority  ) ) {
+    case 1:
+      classString = "task__priority--low";
+      break;
+
+    case 2:
+      classString = "task__priority--normal";
+      break;
+
+    case 3:
+      classString = "task__priority--high";
+      break;
+  }
+
+  return classString;
+};
+
 const closeModal = ( modalToClose ) => {
   MicroModal.close( modalToClose );
 };
@@ -88,17 +107,17 @@ const createEditForm = ( task ) => {
 
         let option1 = document.createElement( 'option' );
         option1.value = 1;
-        option1.selected = task[field] === option1.value ? true : false;
+        option1.selected = task[field] === parseInt( option1.value ) ? true : false;
         option1.text = 'Low';
 
         let option2 = document.createElement( 'option' );
         option2.value = 2;
-        option2.selected = task[field] === option2.value ? true : false;
+        option2.selected = task[field] === parseInt( option2.value ) ? true : false;
         option2.text = 'Normal';
 
         let option3 = document.createElement( 'option' );
         option3.value = 3;
-        option3.selected = task[field] === option3.value ? true : false;
+        option3.selected = task[field] === parseInt( option3.value ) ? true : false;
         option3.text = 'High';
 
         prioritySelect.add( option1 );
@@ -260,8 +279,10 @@ const displayTasks = () => {
 
   orderedTasks.forEach( task => {
     const taskNode  = document.createElement( 'div' );
-    taskNode.classList.add( "task__item" );
+    const taskNodePriorityClass = assignTaskPriorityClass( task );
+    taskNode.classList.add( "task__item", taskNodePriorityClass );
     taskNode.setAttribute( "data-task-id", task.id );
+
 
     const checkBox = document.createElement( 'input' );
     checkBox.type = 'checkbox';

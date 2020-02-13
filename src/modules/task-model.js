@@ -94,23 +94,23 @@ const updateTask = ( object, taskId ) => {
 };
 
 createTask({
-  title:'sdfhi',
-  description:'lol',
-  deadline:'2020-02-18',
-  priority:'3',
-  notes:'xcv',
+  title: 'sdfhi',
+  description: 'lol',
+  deadline: '2020-02-18',
+  priority: 3,
+  notes: 'xcv',
   project: 1,
   status: true,
 });
 
 createTask({
-  title:'test',
-  description:'',
-  deadline:'',
-  priority:'',
-  notes:'',
-  project:1,
-  status: false,
+  title: 'test',
+  description: '',
+  deadline: '',
+  priority:  2,
+  notes: '',
+  project: 1,
+  status:  false,
 });
 
 export {
