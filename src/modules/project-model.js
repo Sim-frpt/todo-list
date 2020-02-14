@@ -2,10 +2,6 @@ import { projectFactory } from "./project";
 
 const projects = [];
 
-const defaultProject = projectFactory( 'default', true, 1 );
-
-projects.push( defaultProject );
-
 const createProject = ( projectName ) => {
   projects.forEach( project => {
     if ( project.isSelected ) {
@@ -20,6 +16,21 @@ const createProject = ( projectName ) => {
   projects.push( newProject );
 
   reorderProjects( projects );
+};
+
+const initProjectsArray = ( projects ) => {
+
+  if ( 'projects' in localStorage ) {
+    const storedProjects = JSON.parse( localStorage.getItem( 'projects' ) );
+
+    storedProjects.forEach( project => createProject( project.name ) );
+  } else {
+    const defaultProject = projectFactory( 'default', true, 1 );
+
+    projects.push( defaultProject );
+  }
+
+  return projects;
 };
 
 const reorderProjects = ( projects ) => {
@@ -62,5 +73,7 @@ const deleteProject = ( id ) => {
   reorderProjects( projects );
 
 };
+
+initProjectsArray( projects );
 
 export { createProject, deleteProject, renameProject, projects };

@@ -39,6 +39,17 @@ const getTask = ( id ) => {
   return tasks.find( task => task.id === id );
 };
 
+const initTasksArray = ( tasks ) => {
+
+  if ( 'tasks' in localStorage ) {
+    const storedTasks = JSON.parse( localStorage.getItem( 'tasks' ) );
+
+    storedTasks.forEach( createTask );
+  }
+
+  return tasks;
+};
+
 const orderTasks = ( selectedTasks ) => {
 
   const sortByDate = ( a, b ) => {
@@ -93,25 +104,27 @@ const updateTask = ( object, taskId ) => {
   Object.assign( taskToUpdate, object );
 };
 
-createTask({
-  title: 'sdfhi',
-  description: 'lol',
-  deadline: '2020-02-18',
-  priority: 3,
-  notes: 'xcv',
-  project: 1,
-  status: true,
-});
+initTasksArray( tasks );
 
-createTask({
-  title: 'test',
-  description: '',
-  deadline: '',
-  priority:  2,
-  notes: '',
-  project: 1,
-  status:  false,
-});
+//createTask({
+  //title: 'sdfhi',
+  //description: 'lol',
+  //deadline: '2020-02-18',
+  //priority: 3,
+  //notes: 'xcv',
+  //project: 1,
+  //status: true,
+//});
+
+//createTask({
+  //title: 'test',
+  //description: '',
+  //deadline: '',
+  //priority:  2,
+  //notes: '',
+  //project: 1,
+  //status:  false,
+//});
 
 export {
   createTask,

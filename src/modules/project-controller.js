@@ -1,6 +1,7 @@
 import MicroModal from "micromodal";
 import { createProject, deleteProject, renameProject, projects } from "./project-model";
 import * as pageInteraction from "./dom-manipulation";
+import deleteRelatedTasks from "./task-project-interaction";
 
 const confirmRename = ( event ) => {
   const input = document.getElementById( "project-rename-input" );
@@ -33,6 +34,7 @@ const handleAddingProject = ( event ) => {
 
   pageInteraction.removeProjectForm( event );
   pageInteraction.displayProjects( projects );
+  pageInteraction.displayTasks();
   pageInteraction.markProjectAsSelected();
 };
 
@@ -50,9 +52,13 @@ const handleDeletingProject = ( projectNode, modalId, event ) => {
   const deleteId = parseInt( projectNode.dataset.projectId );
 
   deleteProject( deleteId );
+  deleteRelatedTasks( deleteId );
+
   // TODO maybe I'll have to toggle selected on another project after deletion
 
   pageInteraction.displayProjects( projects );
+  pageInteraction.displayTasks();
+
   pageInteraction.closeModal( modalId );
 };
 
@@ -140,9 +146,14 @@ const isNameAlreadyTaken = input => {
   return isnameTaken;
 };
 
+const updateLocalStorageProjects = ( projects ) => {
+  localStorage.setItem( 'projects', JSON.stringify( projects ) );
+};
+
 export {
   getSelectedProject,
   handleProjectInteraction,
   handleProjectFocus,
   projects,
+  updateLocalStorageProjects,
 };

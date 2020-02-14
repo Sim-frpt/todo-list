@@ -16,6 +16,7 @@ const handleCheckBoxClick = ( event ) => {
   const taskId = parseInt( event.target.parentNode.dataset.taskId );
 
   updateCheckedStatus( taskId );
+  pageInteraction.displayTasks();
 
   // TODO visual checked/unchecked styling in dom-manipulation
 };
@@ -110,14 +111,14 @@ const handleDeleteButtonClick = ( event ) => {
   console.log( event );
   MicroModal.show( modalId, { awaitCloseAnimation: true } );
 
-  const projectNode = event.target.parentNode;
+  const taskNode = event.target.parentNode;
   const confirmDelete = document.getElementsByClassName( "task__modal-del" )[0];
 
-  confirmDelete.onclick = handleDeletingProject.bind( null, projectNode, modalId );
+  confirmDelete.onclick = handleDeletingTask.bind( null, taskNode, modalId );
 };
 
-const handleDeletingProject = ( projectNode, modalId, event ) => {
-  const deleteId = parseInt( projectNode.dataset.taskId );
+const handleDeletingTask = ( taskNode, modalId, event ) => {
+  const deleteId = parseInt( taskNode.dataset.taskId );
 
   deleteTask( deleteId );
   // TODO maybe I'll have to toggle selected on another project after deletion
@@ -168,9 +169,14 @@ const passesBasicValidation = ( object ) => {
     return isRegexMatching;
 }
 
+const updateLocalStorageTasks = ( tasks ) => {
+  localStorage.setItem( 'tasks', JSON.stringify( tasks ) );
+};
+
 export {
   getCorrespondingTasks,
   handleTaskInteraction,
   orderTasks,
   tasks,
+  updateLocalStorageTasks
 };

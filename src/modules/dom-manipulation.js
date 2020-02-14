@@ -1,7 +1,7 @@
 import MicroModal from "micromodal";
 import { format, parseISO } from "date-fns";
-import { getSelectedProject, projects } from "./project-controller";
-import { getCorrespondingTasks, orderTasks } from "./task-controller";
+import { getSelectedProject, projects, updateLocalStorageProjects } from "./project-controller";
+import { getCorrespondingTasks, orderTasks, tasks, updateLocalStorageTasks } from "./task-controller";
 
 const projectForm = document.getElementsByClassName( "add__project" )[0];
 const taskForm     = document.getElementsByClassName( "task__form" )[0];
@@ -211,10 +211,24 @@ const removeTaskForm = ( event ) => {
   const form = event.target.form;
 
   [...form].forEach( formElement => {
-    clearInput( formElement );
+    if ( formElement.name === "priority" ) {
+      selectDefaultOption( formElement );
+    } else {
+      clearInput( formElement );
+    }
   });
 
   form.style.display = '';
+};
+
+const selectDefaultOption = ( selectInput ) => {
+  const options = [...selectInput.options];
+
+  options.forEach( option => {
+    if ( parseInt( option.value ) === 2 ) {
+      option.selected = true;
+    }
+  });
 };
 
 const clearInput = ( input ) => {
@@ -258,10 +272,15 @@ const displayProjects = ( projects ) => {
   };
 
   projectNodes.forEach( node => node.remove() );
-  projects.forEach( project => createProjectNode( project ) );
+
+  projects.forEach( createProjectNode );
+
+  updateLocalStorageProjects( projects );
 };
 
 const displayTasks = () => {
+  updateLocalStorageTasks( tasks );
+
   const tasksContainer      = document.getElementsByClassName( "tasks__container" )[0];
   const selectedProject     = getSelectedProject();
   const tasksList           = [...document.getElementsByClassName( "task__item" )];
@@ -277,12 +296,15 @@ const displayTasks = () => {
 
   const orderedTasks = orderTasks( projectRelatedTasks );
 
-  orderedTasks.forEach( task => {
+  const createTaskNode = ( task ) => {
     const taskNode  = document.createElement( 'div' );
     const taskNodePriorityClass = assignTaskPriorityClass( task );
     taskNode.classList.add( "task__item", taskNodePriorityClass );
     taskNode.setAttribute( "data-task-id", task.id );
 
+    if ( task.status ) {
+      taskNode.classList.add( "task--completed" );
+    }
 
     const checkBox = document.createElement( 'input' );
     checkBox.type = 'checkbox';
@@ -327,7 +349,9 @@ const displayTasks = () => {
     );
 
     tasksContainer.insertBefore( taskNode, addTaskButton );
-  });
+  };
+
+  orderedTasks.forEach( createTaskNode );
 }
 
 const getFormattedDate = ( date ) => {
