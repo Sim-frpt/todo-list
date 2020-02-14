@@ -5,6 +5,32 @@ button > * {
   pointer-events: none;
 }
 
+body {
+  font-family: "Open Sans", sans-serif;
+  color: #474747;
+}
+
+button {
+  background: transparent;
+  cursor: pointer;
+}
+
+.page-title {
+  font-family: "Voltaire", sans-serif;
+  letter-spacing: 3px;
+  text-align: center;
+  margin: 2em;
+  font-size: 2em;
+  color: #5E4B56;
+}
+
+.section__title {
+  font-family: "Voltaire", sans-serif;
+  letter-spacing: 3px;
+  text-align: center;
+  color: #5E4B56;
+}
+
 .main__container {
   display: flex;
   margin: 2em 10%;
@@ -12,7 +38,12 @@ button > * {
 
 .project__container {
   flex-grow: 1;
+  border-right: 2px solid #5E4B56;
   padding: 0 2em;
+}
+
+.project__wrapper {
+  margin: 0.5em;
 }
 
 .add__project {
@@ -36,6 +67,10 @@ button > * {
 
 .rename__button-cancel {
   display: none;
+}
+
+.reveal__project-input {
+  margin: 1em;
 }
 
 .task__item {
