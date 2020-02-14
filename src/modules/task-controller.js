@@ -12,13 +12,10 @@ import MicroModal from "micromodal";
 import * as pageInteraction from "./dom-manipulation";
 
 const handleCheckBoxClick = ( event ) => {
-  //const isChecked = event.target.checked;
   const taskId = parseInt( event.target.parentNode.dataset.taskId );
 
   updateCheckedStatus( taskId );
   pageInteraction.displayTasks();
-
-  // TODO visual checked/unchecked styling in dom-manipulation
 };
 
 const handleEditButtonClick = ( event ) => {

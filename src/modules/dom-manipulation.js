@@ -235,10 +235,11 @@ const clearInput = ( input ) => {
   input.value = '';
 };
 
-const displayProjects = ( projects ) => {
+const displayProjects = () => {
   const projectsContainer = document.getElementsByClassName( "project__container" )[0];
-  const addProjectButton  = document.getElementsByClassName( "reveal__project-input")[0];
   const projectNodes      = [...document.getElementsByClassName( "project__wrapper" )];
+
+  projectNodes.forEach( node => node.remove() );
 
   const createProjectNode = ( project ) => {
     const projectNode = document.createElement( 'div' );
@@ -268,10 +269,8 @@ const displayProjects = ( projects ) => {
 
     projectNode.append( projectTitle, okButton, cancelButton, renameButton, deleteButton );
 
-    projectsContainer.insertBefore( projectNode, addProjectButton );
+    projectsContainer.append( projectNode );
   };
-
-  projectNodes.forEach( node => node.remove() );
 
   projects.forEach( createProjectNode );
 

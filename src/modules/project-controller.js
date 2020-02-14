@@ -14,7 +14,7 @@ const confirmRename = ( event ) => {
   }
 
   renameProject( input, projectID );
-  pageInteraction.displayProjects( projects );
+  pageInteraction.displayProjects();
 };
 
 const getSelectedProject = () => {
@@ -33,7 +33,7 @@ const handleAddingProject = ( event ) => {
   createProject( input.value.toLowerCase() );
 
   pageInteraction.removeProjectForm( event );
-  pageInteraction.displayProjects( projects );
+  pageInteraction.displayProjects();
   pageInteraction.displayTasks();
   pageInteraction.markProjectAsSelected();
 };
@@ -56,7 +56,7 @@ const handleDeletingProject = ( projectNode, modalId, event ) => {
 
   // TODO maybe I'll have to toggle selected on another project after deletion
 
-  pageInteraction.displayProjects( projects );
+  pageInteraction.displayProjects();
   pageInteraction.displayTasks();
 
   pageInteraction.closeModal( modalId );
@@ -94,7 +94,7 @@ const handleProjectInteraction = ( event ) => {
     return;
   }
   if ( event.target.classList.contains( "rename__button-cancel" ) ) {
-    pageInteraction.displayProjects( projects );
+    pageInteraction.displayProjects();
   }
   if ( event.target.classList.contains( "rename__button-ok" ) ) {
     confirmRename( event );
