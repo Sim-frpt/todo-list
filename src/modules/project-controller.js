@@ -35,7 +35,6 @@ const handleAddingProject = ( event ) => {
   pageInteraction.removeProjectForm( event );
   pageInteraction.displayProjects();
   pageInteraction.displayTasks();
-  pageInteraction.markProjectAsSelected();
 };
 
 const handleDeleteButtonClick = ( event ) => {
@@ -53,18 +52,13 @@ const handleDeletingProject = ( projectNode, modalId, event ) => {
 
   deleteProject( deleteId );
   deleteRelatedTasks( deleteId );
-
-  // TODO maybe I'll have to toggle selected on another project after deletion
-
   pageInteraction.displayProjects();
   pageInteraction.displayTasks();
-
   pageInteraction.closeModal( modalId );
 };
 
 const handleProjectFocus = ( event ) => {
   const projectID = parseInt( event.target.parentNode.dataset.projectId );
-
   projects.forEach( project => {
     if ( project.isSelected && project.id !== projectID ) {
       project.toggleSelected();
@@ -109,20 +103,7 @@ const handleProjectInteraction = ( event ) => {
 };
 
 const handleRenameButtonClick = ( event ) => {
-  const parentNode = event.target.parentNode;
-
-  const focusedProject = parentNode.firstChild;
-  const confirmButton = parentNode.getElementsByClassName( "rename__button-ok" )[0];
-  const cancelButton = parentNode.getElementsByClassName( "rename__button-cancel" )[0];
-
-  const projectInput = document.createElement( 'input' );
-  projectInput.setAttribute( 'type', "text" );
-  projectInput.setAttribute( 'id', "project-rename-input" );
-  projectInput.value = focusedProject.textContent;
-
-  focusedProject.replaceWith( projectInput );
-  projectInput.focus();
-  pageInteraction.toggleRenameControls( confirmButton, cancelButton );
+  pageInteraction.displayProjectRenameControls( event );
 }
 
 const isInputValid = ( input ) => {

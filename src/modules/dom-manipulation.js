@@ -173,18 +173,8 @@ const displayEditTaskForm = ( taskNode, task ) => {
   taskNode.append( editForm );
 };
 
-const toggleRenameControls = ( okButton, cancelButton ) => {
-  if ( okButton.style.display === '' ) {
-    okButton.style.display = "inline";
-    cancelButton.style.display = "inline";
-  } else {
-    okButton.style.display = "";
-    cancelButton.style.display = "";
-  }
-};
-
 const revealProjectForm = () => {
-  projectForm.style.display = 'block';
+  projectForm.style.display = 'flex';
 };
 
 const removeProjectForm = () => {
@@ -251,19 +241,19 @@ const displayProjects = () => {
     projectTitle.textContent = getUpperCaseString( project.name );
 
     const renameButton = document.createElement( 'button' );
-    renameButton.classList.add( "button--main", "rename__project" );
+    renameButton.classList.add( "button--main", "button--main-action", "rename__project", "button--hidden" );
     renameButton.textContent = "Rename";
 
     const okButton = document.createElement( 'button' );
-    okButton.classList.add( "button--secondary", "rename__button-ok" );
+    okButton.classList.add( "button--secondary", "button--ok", "rename__button-ok" );
     okButton.innerHTML = "<i class='fas fa-check'></i>";
 
     const cancelButton = document.createElement( 'button' );
-    cancelButton.classList.add( "button--secondary", "rename__button-cancel" );
+    cancelButton.classList.add( "button--secondary", "button--cancel", "rename__button-cancel" );
     cancelButton.innerHTML = "<i class='fas fa-times'></i>";
 
     const deleteButton = document.createElement( 'button' );
-    deleteButton.classList.add( "button--main", "delete__project" );
+    deleteButton.classList.add( "button--main", "delete__project", "button--main-delete", "button--hidden" );
     deleteButton.setAttribute( "data-del-project-modal", "del-project-modal" );
     deleteButton.textContent = "Delete";
 
@@ -273,8 +263,34 @@ const displayProjects = () => {
   };
 
   projects.forEach( createProjectNode );
-
+  markProjectAsSelected();
   updateLocalStorageProjects( projects );
+};
+
+const displayProjectRenameControls = ( event ) => {
+  const parentNode = event.target.parentNode;
+
+  const focusedProject = parentNode.firstChild;
+  const confirmButton = parentNode.getElementsByClassName( "rename__button-ok" )[0];
+  const cancelButton = parentNode.getElementsByClassName( "rename__button-cancel" )[0];
+
+  const projectInput = document.createElement( 'input' );
+  projectInput.classList.add( "project__input-rename" );
+  projectInput.setAttribute( 'type', "text" );
+  projectInput.setAttribute( 'id', "project-rename-input" );
+  projectInput.value = focusedProject.textContent;
+
+  focusedProject.replaceWith( projectInput );
+  projectInput.focus();
+  toggleRenameControls( confirmButton, cancelButton );
+
+  const nodeChildren = [...parentNode.children];
+
+  //nodeChildren.forEach( child => {
+    //if ( child.classList.contains( "button--main") ) {
+      //toggleMainButtonsDisplay( child );
+    //}
+  //});
 };
 
 const displayTasks = () => {
@@ -370,6 +386,11 @@ const getUpperCaseString = ( string ) => {
 
 const markProjectAsSelected = () => {
   const selectedProject = getSelectedProject();
+
+  if ( ! selectedProject ) {
+    return;
+  }
+
   const projectNodes    = [...document.getElementsByClassName( "project__wrapper" )];
   const selectedClass   = "selected__project";
 
@@ -378,8 +399,10 @@ const markProjectAsSelected = () => {
 
     if ( projectID === selectedProject.id ) {
       node.classList.add( selectedClass );
+      toggleProjectButton( node, true );
     } else {
       node.classList.remove( selectedClass );
+      toggleProjectButton( node, false );
     }
   });
 };
@@ -424,12 +447,40 @@ const revealTaskFields = ( event ) => {
   });
 };
 
+//const toggleMainButtonsDisplay = ( element ) => {
+  //element.classList.toggle( "button--hidden" );
+//};
+
+const toggleProjectButton = ( targetedNode, isActive ) => {
+  [...targetedNode.children].forEach( element => {
+    if ( ! element.classList.contains( "button--main" ) ) {
+      return;
+    }
+    if ( isActive ) {
+      element.classList.remove( "button--hidden" );
+    } else {
+      element.classList.add( "button--hidden" );
+    }
+  } );
+}
+
+const toggleRenameControls = ( okButton, cancelButton ) => {
+  if ( okButton.style.display === '' ) {
+    okButton.style.display = "inline";
+    cancelButton.style.display = "inline";
+  } else {
+    okButton.style.display = "";
+    cancelButton.style.display = "";
+  }
+};
+
 export {
   clearInput,
   closeModal,
   deleteEditTaskForm,
   displayEditTaskForm,
   displayProjects,
+  displayProjectRenameControls,
   displayTasks,
   markProjectAsSelected,
   removeProjectForm,
@@ -437,5 +488,4 @@ export {
   revealProjectForm,
   revealTaskForm,
   revealTaskFields,
-  toggleRenameControls,
 };
