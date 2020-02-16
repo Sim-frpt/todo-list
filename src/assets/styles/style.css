@@ -13,6 +13,99 @@ body {
 button {
   background: transparent;
   cursor: pointer;
+  border: 1px solid black;
+  color: #5E4B56;
+  transition: all ease 0.5s;
+}
+
+.add__project {
+  display: none;
+  width: 60%;
+  margin: auto;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.button--cancel {
+  color: #d90a0a;
+  border: 2px solid #d90a0a;
+}
+
+.button--cancel:hover {
+  background: #d90a0a;
+  color: white;
+}
+
+.button--main {
+  width: 5em;
+  height: 2em;
+  margin: 0.5em;
+  border-radius: 5%;
+}
+
+.button--main-action {
+  border: 2px solid #B1B695;
+}
+
+.button--main-action:hover {
+  background-color: #B1B695;
+  border: 2px solid #A690A4;
+  color: white;
+}
+
+.button--main-delete {
+  border: 2px solid #FCD0A1;
+}
+
+.button--main-delete:hover {
+  background-color: #FCD0A1;
+  border: 2px solid #A690A4;
+}
+
+.button--hidden {
+  display: none;
+}
+
+.button--ok {
+  color: green;
+  border: 2px solid green;
+}
+
+.button--ok:hover {
+  color: white;
+  background: green;
+}
+
+.button--secondary {
+  width: 3em;
+  height: 2em;
+  margin: 0 0.5em;
+  border-radius: 10%;
+}
+
+.button__reveal {
+  display: block;
+  width: 2.5em;
+  height: 2.5em;
+  margin: auto;
+  border-radius: 50%;
+  border: 2px solid #AFD2E9;
+  color: #5E4B56;
+}
+
+.button__reveal:hover {
+  background-color: #AFD2E9;
+  border-color: #5E4B56;
+}
+
+.button__reveal:focus {
+  outline: none;
+  box-shadow: 0px 0px 2px #0066ff;
+}
+
+.main__container {
+  display: flex;
+  margin: 2em 10%;
 }
 
 .page-title {
@@ -31,27 +124,46 @@ button {
   color: #5E4B56;
 }
 
-.main__container {
-  display: flex;
-  margin: 2em 10%;
-}
-
 .project__container {
-  flex-grow: 1;
+  flex: 0 1 25%;
+  max-width: 500px;
   border-right: 2px solid #5E4B56;
   padding: 0 2em;
 }
 
-.project__wrapper {
-  margin: 0.5em;
+.project__input {
+  flex-basis: 100%;
+  margin: 1em;
 }
 
-.add__project {
-  display: none;
+input[type=text] {
+  height: 1.5em;
+  border: 2px solid #A690A4;
+}
+
+.project__input-rename {
+  margin: 1em 2em;
+  flex: 1 1 100%;
+}
+
+.project__name {
+  flex-basis: 100%;
+  padding: 0.5em;
+  margin: 0.5em;
+  cursor: pointer;
+  transition: background-color 1s ease-out;
+}
+
+.project__wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center ;
+  padding: 0.5em;
+  margin: 0.5em 2em;
 }
 
 .tasks__container {
-  flex-grow: 2;
+  flex: 0 1 50%;
   padding: 0 2em;
 }
 
@@ -69,8 +181,9 @@ button {
   display: none;
 }
 
-.reveal__project-input {
-  margin: 1em;
+.selected__project > .project__name {
+  background-color: #FCD0A1;
+  border: 2px solid #B1B695;
 }
 
 .task__item {
