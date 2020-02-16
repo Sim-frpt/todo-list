@@ -171,6 +171,7 @@ const displayEditTaskForm = ( taskNode, task ) => {
 };
 
 const revealTaskForm = () => {
+  const taskForm = document.getElementsByClassName( "task__form" )[0];
   reloadProjectOptions();
 
   taskForm.style.display = 'flex';
