@@ -32,7 +32,7 @@ const handleAddingProject = ( event ) => {
 
   createProject( input.value.toLowerCase() );
 
-  pageInteraction.removeProjectForm( event );
+  pageInteraction.toggleProjectForm();
   pageInteraction.displayProjects();
   pageInteraction.displayTasks();
 };
@@ -77,7 +77,7 @@ const handleProjectInteraction = ( event ) => {
     handleAddingProject( event );
   }
   if ( event.target.classList.contains( "button__close-project" ) ) {
-    pageInteraction.removeProjectForm( event );
+    pageInteraction.toggleProjectForm();
   }
   if ( event.target.classList.contains( "delete__project" ) ) {
     handleDeleteButtonClick( event );
@@ -98,7 +98,7 @@ const handleProjectInteraction = ( event ) => {
     return;
   }
   if ( event.target.classList.contains( "reveal__project-input" ) ) {
-    pageInteraction.revealProjectForm( event );
+    pageInteraction.toggleProjectForm( true );
   }
 };
 

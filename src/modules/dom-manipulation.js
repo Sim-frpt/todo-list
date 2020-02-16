@@ -3,9 +3,6 @@ import { format, parseISO } from "date-fns";
 import { getSelectedProject, projects, updateLocalStorageProjects } from "./project-controller";
 import { getCorrespondingTasks, orderTasks, tasks, updateLocalStorageTasks } from "./task-controller";
 
-const projectForm = document.getElementsByClassName( "add__project" )[0];
-const taskForm     = document.getElementsByClassName( "task__form" )[0];
-
 const assignTaskPriorityClass = ( task ) => {
   let classString = '';
   switch ( parseInt( task.priority  ) ) {
@@ -173,18 +170,6 @@ const displayEditTaskForm = ( taskNode, task ) => {
   taskNode.append( editForm );
 };
 
-const revealProjectForm = () => {
-  projectForm.style.display = 'flex';
-};
-
-const removeProjectForm = () => {
-  const projectInput = document.getElementsByClassName( "project__input" )[0];
-
-  clearInput( projectInput );
-
-  projectForm.style.display = '';
-};
-
 const revealTaskForm = () => {
   reloadProjectOptions();
 
@@ -286,11 +271,11 @@ const displayProjectRenameControls = ( event ) => {
 
   const nodeChildren = [...parentNode.children];
 
-  //nodeChildren.forEach( child => {
-    //if ( child.classList.contains( "button--main") ) {
-      //toggleMainButtonsDisplay( child );
-    //}
-  //});
+  nodeChildren.forEach( child => {
+    if ( child.classList.contains( "button--main") ) {
+      toggleMainButtonsDisplay( child );
+    }
+  });
 };
 
 const displayTasks = () => {
@@ -447,9 +432,9 @@ const revealTaskFields = ( event ) => {
   });
 };
 
-//const toggleMainButtonsDisplay = ( element ) => {
-  //element.classList.toggle( "button--hidden" );
-//};
+const toggleMainButtonsDisplay = ( element ) => {
+  element.classList.toggle( "button--hidden" );
+};
 
 const toggleProjectButton = ( targetedNode, isActive ) => {
   [...targetedNode.children].forEach( element => {
@@ -462,6 +447,19 @@ const toggleProjectButton = ( targetedNode, isActive ) => {
       element.classList.add( "button--hidden" );
     }
   } );
+}
+
+const toggleProjectForm = ( shouldFormBeVisible = false ) => {
+  const projectForm  = document.getElementsByClassName( "add__project" )[0];
+  const projectInput = document.getElementsByClassName( "project__input" )[0];
+
+  if ( shouldFormBeVisible ) {
+    projectForm.style.display = 'flex';
+    projectInput.focus();
+  } else {
+    clearInput( projectInput );
+    projectForm.style.display = '';
+  }
 }
 
 const toggleRenameControls = ( okButton, cancelButton ) => {
@@ -483,9 +481,8 @@ export {
   displayProjectRenameControls,
   displayTasks,
   markProjectAsSelected,
-  removeProjectForm,
   removeTaskForm,
-  revealProjectForm,
   revealTaskForm,
   revealTaskFields,
+  toggleProjectForm,
 };
