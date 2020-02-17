@@ -18,6 +18,35 @@ button {
   transition: all ease 0.5s;
 }
 
+button:hover {
+  transform: scale(1.1);
+}
+
+input {
+  height: 1.5em;
+  border: 2px solid #A690A4;
+  color: #474747;
+}
+
+select {
+  color: #474747;
+  border: 2px solid #A690A4;
+  background-color: #FCD0A1;
+}
+
+option {
+  background-color: #FCD0A1;
+  color: #474747;
+}
+
+input[type=checkbox] {
+  transform: scale(1.5);
+}
+
+textarea {
+  border: 2px solid #A690A4;
+}
+
 .add__project {
   display: none;
   width: 60%;
@@ -105,7 +134,7 @@ button {
 
 .main__container {
   display: flex;
-  margin: 2em 10%;
+  margin: 2em 5%;
 }
 
 .page-title {
@@ -136,13 +165,8 @@ button {
   margin: 1em;
 }
 
-input[type=text] {
-  height: 1.5em;
-  border: 2px solid #A690A4;
-}
-
 .project__input-rename {
-  margin: 1em 2em;
+  margin: 1em 1em;
   flex: 1 1 100%;
 }
 
@@ -171,6 +195,40 @@ input[type=text] {
   display: none;
   flex-direction: column;
   flex-wrap: wrap;
+  width: 90%;
+  padding: 1em;
+  margin: 1em auto;
+  background-color: #AFD2E9;
+  border-radius: 1%;
+  align-items: center;
+  border: 2px solid #A690A4;
+}
+
+.task__form-element {
+  display: flex;
+  align-items: center;
+  width: 75%;
+  margin: 1em 0;
+  padding: 0.5em 0;
+  font-weight: bold;
+}
+
+.task__form-element > label {
+  flex: 1 0 30%;
+  padding-right: 0.5em;
+}
+
+.task__form-element > input, select, textarea, div {
+  flex: 2 0 40%;
+}
+
+.task__form-element #task-status {
+  /* Yuk */
+  margin-left: 3px;
+}
+
+.task__form-element.task__buttons {
+  justify-content: center;
 }
 
 .rename__button-ok {
@@ -192,10 +250,10 @@ input[type=text] {
   margin: 1em;
 }
 
-.task__checkbox, .task__title, .task__date {
-  margin: 1em 0;
-  padding: 0 1em;
-}
+/*.task__checkbox, .task__title, .task__date {*/
+  /*margin: 1em 0;*/
+  /*padding: 0 1em;*/
+/*}*/
 
 .task__checkbox {
   position: relative;
@@ -203,7 +261,6 @@ input[type=text] {
 }
 
 .task__title {
-  margin: 1em 1em;
 }
 
 .task__description, .task__notes {
