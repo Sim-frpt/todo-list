@@ -102,6 +102,26 @@ const handleProjectInteraction = ( event ) => {
   }
 };
 
+const handleProjectKeyInteraction = ( event ) => {
+  if ( event.key !== "Enter" ) {
+    return;
+  }
+
+  if ( event.target.classList.contains( "project__input" ) ) {
+    document.getElementsByClassName( "button__add-project")[0].click();
+  }
+
+  if ( event.target.classList.contains( "project__input-rename" ) ) {
+    const parentNode = event.target.parentNode;
+
+    [...parentNode.children].forEach( element => {
+      if ( element.classList.contains( "rename__button-ok" ) ) {
+        element.click();
+      }
+    });
+  }
+};
+
 const handleRenameButtonClick = ( event ) => {
   pageInteraction.displayProjectRenameControls( event );
 }
@@ -135,6 +155,7 @@ export {
   getSelectedProject,
   handleProjectInteraction,
   handleProjectFocus,
+  handleProjectKeyInteraction,
   projects,
   updateLocalStorageProjects,
 };

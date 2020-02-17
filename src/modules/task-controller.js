@@ -62,7 +62,8 @@ const handleTaskInteraction = ( event ) => {
   }
   if (
     event.target.classList.contains( "task__item" ) ||
-    event.target.classList.contains( "task__title" )
+    event.target.classList.contains( "task__title" ) ||
+    event.target.classList.contains( "task__date" )
   ) {
     pageInteraction.revealTaskFields( event );
   }

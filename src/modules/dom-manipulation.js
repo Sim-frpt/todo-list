@@ -28,7 +28,7 @@ const closeModal = ( modalToClose ) => {
 
 const createEditForm = ( task ) => {
   const form = document.createElement( 'form' );
-  form.classList.add( "edit__form" );
+  form.classList.add( "task__form", "edit__form" );
 
   const formFieldNames = Object.keys( task ).filter( key => {
     if ( key === 'id' || key === 'toggleStatus' ) {
@@ -42,18 +42,18 @@ const createEditForm = ( task ) => {
   buttonDiv.classList.add( "edit__form-controls" );
 
   const confirmButton = document.createElement( 'button' );
-  confirmButton.classList.add( "button--secondary", "edit-button", "edit__button-confirm" );
+  confirmButton.classList.add( "button--secondary", "button--ok", "edit-button", "edit__button-confirm" );
   confirmButton.innerHTML = "<i class='fas fa-check'></i>";
 
   const cancelButton = document.createElement( 'button' );
-  cancelButton.classList.add( "button--secondary", "edit-button", "edit__button-cancel" );
+  cancelButton.classList.add( "button--secondary", "button--cancel", "edit-button", "edit__button-cancel" );
   cancelButton.innerHTML = "<i class='fas fa-times'></i>";
 
   buttonDiv.append( confirmButton, cancelButton );
 
   formFieldNames.forEach( field => {
     const newDiv = document.createElement( 'div' );
-    newDiv.classList.add( "edit__form-node", `task__${field}--edit` );
+    newDiv.classList.add( "edit__form-node", "task__form-element", `task__${field}--edit` );
 
     const newLabel = document.createElement( 'label' );
     newLabel.setAttribute( 'for', `edit-${field}` );
@@ -145,13 +145,17 @@ const createEditForm = ( task ) => {
         break;
 
       case 'status':
+        let statusContainer = document.createElement( 'div' );
+        statusContainer.classList.add( "edit-status__container" );
+
         let status = document.createElement( 'input' );
         status.setAttribute( 'id', `edit-${field}` );
         status.type = 'checkbox';
         status.name = field;
         status.checked = task[field] ? true : false;
 
-        newDiv.append( status );
+        statusContainer.append( status );
+        newDiv.append( statusContainer );
         break;
     }
 
@@ -165,13 +169,12 @@ const createEditForm = ( task ) => {
 
 const displayEditTaskForm = ( taskNode, task ) => {
   taskNode.innerHTML = '';
-
   const editForm = createEditForm( task );
   taskNode.append( editForm );
 };
 
 const revealTaskForm = () => {
-  const taskForm = document.getElementsByClassName( "task__form" )[0];
+  const taskForm = document.getElementsByClassName( "task__form--new" )[0];
   reloadProjectOptions();
 
   taskForm.style.display = 'flex';
@@ -285,7 +288,6 @@ const displayTasks = () => {
   const tasksContainer      = document.getElementsByClassName( "tasks__container" )[0];
   const selectedProject     = getSelectedProject();
   const tasksList           = [...document.getElementsByClassName( "task__item" )];
-  const addTaskButton       = document.getElementsByClassName( "reveal__task-inputs" )[0];
 
   tasksList.forEach( node => node.remove() );
 
@@ -302,10 +304,6 @@ const displayTasks = () => {
     const taskNodePriorityClass = assignTaskPriorityClass( task );
     taskNode.classList.add( "task__item", taskNodePriorityClass );
     taskNode.setAttribute( "data-task-id", task.id );
-
-    if ( task.status ) {
-      taskNode.classList.add( "task--completed" );
-    }
 
     const checkBox = document.createElement( 'input' );
     checkBox.type = 'checkbox';
@@ -332,11 +330,11 @@ const displayTasks = () => {
     taskNotes.textContent = task.notes;
 
     const editButton = document.createElement( 'button' );
-    editButton.classList.add( "button--main", "task__edit", "task__hidden" );
+    editButton.classList.add( "button--main", "button--main-action", "task__edit", "task__hidden" );
     editButton.textContent = "Edit";
 
     const deleteButton = document.createElement( 'button' );
-    deleteButton.classList.add( "button--main", "task__delete", "task__hidden" );
+    deleteButton.classList.add( "button--main", "button--main-delete", "task__delete", "task__hidden" );
     deleteButton.textContent = "Delete";
 
     taskNode.append(
@@ -349,7 +347,7 @@ const displayTasks = () => {
       deleteButton,
     );
 
-    tasksContainer.insertBefore( taskNode, addTaskButton );
+    tasksContainer.append( taskNode );
   };
 
   orderedTasks.forEach( createTaskNode );
@@ -415,11 +413,16 @@ const reloadProjectOptions = () => {
 const revealTaskFields = ( event ) => {
   let taskNode;
 
-  if ( event.target.classList.contains( "task__title" ) ) {
+  if (
+    event.target.classList.contains( "task__title" ) ||
+    event.target.classList.contains( "task__date" )
+  ) {
     taskNode = event.target.parentNode;
   } else {
     taskNode = event.target;
   }
+
+  taskNode.classList.toggle( "task__item--revealed" );
 
   const taskElements = [...taskNode.children];
   const targetedClasses = [ "task__description", "task__notes", "task__edit", "task__delete"];
