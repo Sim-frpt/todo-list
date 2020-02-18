@@ -10,8 +10,7 @@
   position: fixed;
   top: 0;
   left: 0;
-  right: 0;
-  bottom: 0;
+  right: 0; bottom: 0;
   background: rgba(0,0,0,0.6);
   display: flex;
   justify-content: center;
@@ -40,7 +39,7 @@
   font-weight: 600;
   font-size: 1.25rem;
   line-height: 1.25;
-  color: #00449e;
+  color: #5E4B56;
   box-sizing: border-box;
 }
 
@@ -91,11 +90,24 @@
   transform: scale(1.05);
 }
 
-.modal__btn-primary {
-  background-color: #00449e;
-  color: #fff;
+.modal__btn-secondary {
+  border: 2px solid #FCD0A1;
 }
 
+.modal__btn-secondary:hover {
+  background-color: #FCD0A1;
+  border: 2px solid #A690A4;
+}
+
+.modal__btn-primary {
+  border: 2px solid #B1B695;
+}
+
+.modal__btn-primary:hover {
+  background-color: #B1B695;
+  border: 2px solid #A690A4;
+  color: white;
+}
 
 
 /**************************\
