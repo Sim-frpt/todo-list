@@ -30,22 +30,22 @@
       <form class="task__form task__form--new">
         <div class="task__form-element task__title">
           <label for="task-title">Title</label>
-          <input type="text" name="title" minlength="3" maxlength="100" id="task-title" required>
+          <input class="form__field" type="text" name="title" minlength="3" maxlength="100" id="task-title" required>
         </div>
 
         <div class="task__form-element task__deadline">
           <label for="task-deadline">Deadline</label>
-          <input type="date" name="deadline" id="task-deadline">
+          <input class="form__field" type="date" name="deadline" id="task-deadline">
         </div>
 
         <div class="task__form-element task__description">
           <label for="task-description">Description</label>
-          <textarea id="task-description" name="description" rows="5" cols="40"></textarea>
+          <textarea class="form__field" id="task-description" name="description" rows="5" cols="40"></textarea>
         </div>
 
         <div class="task__form-element task__priority">
           <label for="task-priority">Priority</label>
-          <select id="task-priority" name="priority">
+          <select class="form__field" id="task-priority" name="priority">
             <option value="1">Low</option>
             <option value="2" selected="selected">Normal</option>
             <option value="3">High</option>
@@ -54,18 +54,18 @@
 
         <div class="task__form-element task__notes">
           <label for="task-notes">Notes</label>
-          <textarea id="task-notes" name="notes" rows="5" cols="40"></textarea>
+          <textarea class="form__field" id="task-notes" name="notes" rows="5" cols="40"></textarea>
         </div>
 
         <div class="task__form-element task__project">
           <label for="task-project">Project</label>
-          <select id="task-project" name="project">
+          <select class="form__field" id="task-project" name="project">
           </select>
         </div>
 
         <div class="task__form-element task__status">
           <label for="task-status">Task Complete</label>
-          <div class="task__status-checkbox">
+          <div class="form__field" class="task__status-checkbox">
             <input type="checkbox" id="task-status" name="status">
           </div>
         </div>
